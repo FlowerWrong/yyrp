@@ -9,7 +9,9 @@ bundle install
 rake down_mmdb
 rake unzip_mmdb
 
+# Optional, it is for mitm
 rake gen_ca
+rake install_ca
 
 cp config.example.json config.json
 
