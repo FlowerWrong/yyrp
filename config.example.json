@@ -1,0 +1,95 @@
+{
+  "server": {
+    "http_host": "0.0.0.0",
+    "http_port": 7777,
+    "socks_host": "0.0.0.0",
+    "socks_port": 7778
+  },
+  "adapters": {
+    "shadowsocks": [
+      {
+        "name": "HK",
+        "host": "127.0.0.1",
+        "port": 6666,
+        "method": "aes-256-cfb",
+        "password": "liveneeq.com"
+      }
+    ],
+    "http": [
+      {
+        "name": "HK-HTTP",
+        "host": "http_proxy.com",
+        "port": 0,
+        "auth": true,
+        "username": "proxy_username",
+        "password": "proxy_password"
+      }
+    ]
+  },
+  "rules": [
+    {
+      "type": "domain",
+      "domains": [
+        "cpro.baidu.com",
+        "stat.m.jd.com",
+        "wangmeng.baidu.com"
+      ],
+      "action": "reject"
+    },
+    {
+      "type": "geoip",
+      "geoips": [
+        "CN"
+      ],
+      "action": "direct"
+    },
+    {
+      "type": "domain",
+      "domains": [
+        "google.com"
+      ],
+      "action": "shadowsocks",
+      "adapter_name": "HK"
+    },
+    {
+      "type": "domain",
+      "domains": [
+        "baidu.com",
+        "liveneeq.com",
+        "tower.im"
+      ],
+      "action": "direct"
+    },
+    {
+      "type": "domain_keyword",
+      "domain_keywords": [
+        "google"
+      ],
+      "action": "shadowsocks",
+      "adapter_name": "HK"
+    },
+    {
+      "type": "domain_suffix",
+      "domain_suffixs": [
+        "apple.com",
+        "github.com"
+      ],
+      "action": "shadowsocks",
+      "adapter_name": "HK"
+    },
+    {
+      "type": "ip_cidr",
+      "ip_cidrs": [
+        "91.108.56.0/22",
+        "91.108.4.0/22"
+      ],
+      "action": "shadowsocks",
+      "adapter_name": "HK"
+    },
+    {
+      "type": "other",
+      "action": "shadowsocks",
+      "adapter_name": "HK"
+    }
+  ]
+}
