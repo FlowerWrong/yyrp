@@ -26,7 +26,7 @@ cp config.example.json config.json
 rake
 ```
 
-## Rules, see more [config.example.json](https://github.com/FlowerWrong/rp/blob/master/config.example.json)
+## Rules, see more [config.example.json](https://github.com/FlowerWrong/yyrp/blob/master/config.example.json)
 
 * There are 4 adapters, `direct`, `mitm`, `http(https)` and `shadowsocks`.
 * There are 6 actions, `http(https):http_adapter`, `shadowsocks:shadowsocks_adapter`, `direct:direct_adapter`, `speed:select fastest adapters`, `mitm:mitm_adapter`, and `reject:just close this socket`.
@@ -76,4 +76,4 @@ rake
 
 #### Shadowsocks
 
-* [My shadowsocks server](https://github.com/FlowerWrong/rp/blob/master/shadowsocks/server.rb)
+* [My shadowsocks server](https://github.com/FlowerWrong/yyrp/blob/master/lib/yyrp/shadowsocks/server.rb)
