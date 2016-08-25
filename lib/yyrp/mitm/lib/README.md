@@ -1,7 +1,5 @@
 # Ruby In The Middle (HTTP/HTTPS interception proxy)
 
-<img src="docs/ritm.png" width="500">
-
 **Ruby in the middle** (RITM) is an HTTP/HTTPS interception proxy with on-the-fly certificate generation and signing, which leaves the user with the
 full power of the Ruby language to intercept and even modify requests and responses as she pleases.
 

@@ -3,7 +3,6 @@ require "rake/testtask"
 
 import 'yyrp.rake'
 
-
 Rake::TestTask.new(:test) do |t|
   t.libs << "test"
   t.libs << "lib"

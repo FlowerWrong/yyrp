@@ -15,9 +15,9 @@ rake install_ca
 
 cp config.example.json config.json
 
-cd test
+cd examples
 ruby proxy.rb # only http/https socks proxy
-ruby mitm.rb # mitm server
+ruby mitm.rb # mitm server for https packet capture
 ruby ss.rb # shadowsocks server
 ```
 
