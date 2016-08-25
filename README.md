@@ -9,7 +9,14 @@ bundle install
 rake down_mmdb
 rake unzip_mmdb
 
+rake gen_ca
+
 cp config.example.json config.json
+
+cd test
+ruby proxy.rb # only http/https socks proxy
+ruby mitm.rb # mitm server
+ruby ss.rb # shadowsocks server
 ```
 
 ## Idea form

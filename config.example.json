@@ -1,9 +1,26 @@
 {
-  "server": {
-    "http_host": "0.0.0.0",
-    "http_port": 7777,
-    "socks_host": "0.0.0.0",
-    "socks_port": 7778
+  "servers": {
+    "http": {
+      "host": "0.0.0.0",
+      "port": 7777
+    },
+    "https": {
+      "host": "0.0.0.0",
+      "port": 7777
+    },
+    "socks": {
+      "host": "0.0.0.0",
+      "port": 7778
+    },
+    "mitm": {
+      "host": "0.0.0.0",
+      "port": 7779,
+      "ca_key": "/Users/kingyang/dev/ruby/gems/yyrp/certs/insecure_ca.key",
+      "ca_crt": "/Users/kingyang/dev/ruby/gems/yyrp/certs/insecure_ca.crt"
+    },
+    "mmdb": {
+      "path": "/Users/kingyang/dev/ruby/gems/yyrp/mmdb/GeoLite2-Country.mmdb"
+    }
   },
   "adapters": {
     "shadowsocks": [
@@ -28,25 +45,45 @@
   },
   "rules": [
     {
+      "type": "domain_suffix",
+      "domain_suffixs": [
+        "baidu.com",
+        "tower.im",
+        "liveneeq.com"
+      ],
+      "action": "mitm"
+    },
+    {
       "type": "domain",
       "domains": [
         "cpro.baidu.com",
         "stat.m.jd.com",
-        "wangmeng.baidu.com"
+        "wangmeng.baidu.com",
+        "www.gstatic.com"
       ],
       "action": "reject"
     },
     {
-      "type": "geoip",
-      "geoips": [
-        "CN"
+      "type": "domain_suffix",
+      "domain_suffixs": [
+        "icloud.com"
+      ],
+      "action": "reject"
+    },
+    {
+      "type": "domain_suffix",
+      "domain_suffixs": [
+        "qq.com",
+        "163.com",
+        "126.net"
       ],
       "action": "direct"
     },
     {
       "type": "domain",
       "domains": [
-        "google.com"
+        "google.com",
+        "gitter.im"
       ],
       "action": "shadowsocks",
       "adapter_name": "HK"
@@ -56,7 +93,17 @@
       "domains": [
         "baidu.com",
         "liveneeq.com",
-        "tower.im"
+        "tower.im",
+        "thecampus.cc"
+      ],
+      "action": "direct"
+    },
+    {
+      "type": "domain_suffix",
+      "domain_suffixs": [
+        "baidu.com",
+        "liveneeq.com",
+        "thecampus.cc"
       ],
       "action": "direct"
     },
@@ -72,7 +119,10 @@
       "type": "domain_suffix",
       "domain_suffixs": [
         "apple.com",
-        "github.com"
+        "github.com",
+        "github.io",
+        "gitbooks.io",
+        "githubusercontent.com"
       ],
       "action": "shadowsocks",
       "adapter_name": "HK"
@@ -87,9 +137,15 @@
       "adapter_name": "HK"
     },
     {
+      "type": "geoip",
+      "geoips": [
+        "CN"
+      ],
+      "action": "direct"
+    },
+    {
       "type": "other",
-      "action": "shadowsocks",
-      "adapter_name": "HK"
+      "action": "direct"
     }
   ]
 }

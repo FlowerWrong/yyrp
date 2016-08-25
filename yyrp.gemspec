@@ -35,6 +35,7 @@ Gem::Specification.new do |spec|
   spec.add_dependency 'awesome_print'
   spec.add_dependency 'activesupport'
   spec.add_dependency 'maxmind_geoip2'
+  spec.add_dependency 'os'
 
   spec.add_runtime_dependency 'faraday'
   spec.add_runtime_dependency 'webrick'

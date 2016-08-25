@@ -1,7 +1,7 @@
 require "bundler/gem_tasks"
 require "rake/testtask"
 
-load 'yyrp.rake'
+import 'yyrp.rake'
 
 
 Rake::TestTask.new(:test) do |t|

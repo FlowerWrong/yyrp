@@ -22,3 +22,12 @@ task :gen_ca do
   File.write('certs/insecure_ca.crt', ca.pem)
   File.write('certs/insecure_ca.key', ca.private_key.to_s)
 end
+
+require 'os'
+task :install_ca do
+  if OS.mac?
+    sh 'sudo security add-trusted-cert -d -r trustRoot -k /Library/Keychains/System.keychain ./certs/insecure_ca.crt'
+  else
+    p 'No support for your system'
+  end
+end
