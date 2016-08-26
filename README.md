@@ -53,11 +53,11 @@ rake
 * [x] [geolite2](https://dev.maxmind.com/zh-hans/geoip/geoip2/geolite2-%E5%BC%80%E6%BA%90%E6%95%B0%E6%8D%AE%E5%BA%93/) support
 * [x] reject, but in browser has some bug???
 * [x] packet capture: http/https support
-* [ ] reload config.json
+* [x] reload config.json
 * [ ] log
 * [ ] packet filter: header and body(http/https support)
 * [ ] DNS server
-* [ ] speed adapter
+* [ ] speed adapter: simple implement with ping, only for proxy, not direct
 * [ ] http/https adapter
 * [ ] command line tools
 * [ ] websocket for view

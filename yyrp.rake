@@ -1,4 +1,4 @@
-require_relative 'lib/yyrp/urils/download_progress'
+require_relative 'lib/yyrp/utils/download_progress'
 mmdb_gz_file = File.expand_path('./mmdb/GeoLite2-Country.mmdb.gz', File.dirname(__FILE__))
 mmdb_file = File.expand_path('./mmdb/GeoLite2-Country.mmdb', File.dirname(__FILE__))
 task :down_mmdb do

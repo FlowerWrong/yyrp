@@ -6,7 +6,7 @@ require 'awesome_print'
 require_relative 'base_proxy_server'
 require_relative 'adapters/direct_adapter'
 
-require_relative 'urils/Relay'
+require_relative 'utils/Relay'
 
 
 class HttpProxyServer < BaseProxyServer
