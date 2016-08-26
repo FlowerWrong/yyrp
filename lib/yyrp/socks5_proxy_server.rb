@@ -43,18 +43,22 @@ class Socks5ProxyServer < BaseProxyServer
       _, cmd, _, @atype, @domain_len = data.unpack('C5')
       case @atype # TODO
         when 1 # 1: ipv4, 4 bytes
-
+          ip = data[5..9]
+          @domain = ip
+          @port = data[9..11].unpack('S>').first
         when 4 # 4: ipv6, 16 bytes
-
+          ip = data[5..21]
+          @domain = ip
+          @port = data[21..23].unpack('S>').first
         when 3 # domain name
           @domain = data[5..(@domain_len + 4)]
           len = data.size
           @port = data[(len-2)..len].unpack('S>').first
-          debug [:receive_data, :socks5_proxy_server, cmd, @domain, @port, @atype, @domain_len]
         else
           debug [:receive_data, @stage, 'not support this atype']
           return
       end
+      debug [:receive_data, :socks5_proxy_server, cmd, @domain, @port, @atype, @domain_len]
 
       case cmd
         when 1 # CONNECT请求
