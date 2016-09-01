@@ -58,8 +58,6 @@ module Relay
             return false
           end
         end
-        session = UUID.generate
-        @connections << {session: session, relay: @relay}
       end
     end
     true

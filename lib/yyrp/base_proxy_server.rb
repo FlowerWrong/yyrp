@@ -2,7 +2,6 @@ require 'eventmachine'
 
 class BaseProxyServer < EventMachine::Connection
   def initialize(debug = false)
-    @connections = []
     @debug = debug
   end
 

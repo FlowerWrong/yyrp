@@ -8,7 +8,6 @@ class ShadowsocksServer < EventMachine::Connection
   attr_accessor :crypto, :cached_pieces
 
   def initialize(pass = 'liveneeq.com', method = 'aes-256-cfb', debug = false)
-    @connections = []
     @debug = debug
     @crypto = Shadowsocks::Crypto.new(method: method, password: pass)
   end
@@ -46,8 +45,6 @@ class ShadowsocksServer < EventMachine::Connection
       debug [:receive_data, @atype, @domain_len, @domain, @port]
 
       @relay = EventMachine::connect @domain, @port, DirectAdapter, self, @debug
-      session = UUID.generate
-      @connections << {session: session, relay: @relay}
 
       if data.size > header_len
         @cached_pieces << data[header_len, data.size]
