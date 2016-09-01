@@ -65,7 +65,7 @@ rake
 * [ ] kcp support
 * [ ] v2ray support
 * [ ] IPV6 support
-* [ ] socks5 proxy server with auth, ip, udp support
+* [ ] socks5 proxy server with auth support
 * [ ] more shadowsocks method support
 
 ## Known bugs

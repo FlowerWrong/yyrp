@@ -41,7 +41,7 @@ class Socks5ProxyServer < BaseProxyServer
       @stage = 2
     elsif @stage == 2
       _, cmd, _, @atype, @domain_len = data.unpack('C5')
-      case @atype # TODO
+      case @atype
         when 1 # 1: ipv4, 4 bytes
           ip = data[5..9]
           @domain = ip
@@ -63,7 +63,7 @@ class Socks5ProxyServer < BaseProxyServer
       case cmd
         when 1 # CONNECT请求
           send_data("\x05\x00\x00\x01\x00\x00\x00\x00" + [@port].pack('s>'))
-        when 2, 3 # bind, udp
+        when 2, 3 # bind: FTP, udp
           debug [:receive_data, @stage, 'not support this cmd']
           return
         else

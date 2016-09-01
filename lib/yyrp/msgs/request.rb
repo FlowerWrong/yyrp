@@ -24,7 +24,7 @@ class Request
       @host
     else
       @only_host = @host
-      # no address for api.coderwall.com (Resolv::ResolvError)
+      # FIXME no address for api.coderwall.com (Resolv::ResolvError)
       begin
         Resolv.getaddress(@only_host)
       rescue => e
