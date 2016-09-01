@@ -24,15 +24,15 @@ class RuleManager
     Yyrp.config.rules.each do |r_h|
       rule = case r_h['type']
                when 'domain'
-                 DomainRule.new('domain', r_h['action'], r_h['domains'], r_h['adapter_name'])
+                 DomainRule.new('domain', r_h['action'], r_h['list'], r_h['adapter_name'])
                when 'domain_keyword'
-                 DomainKeywordRule.new('domain_keyword', r_h['action'], r_h['domain_keywords'], r_h['adapter_name'])
+                 DomainKeywordRule.new('domain_keyword', r_h['action'], r_h['list'], r_h['adapter_name'])
                when 'domain_suffix'
-                 DomainSuffixRule.new('domain_suffix', r_h['action'], r_h['domain_suffixs'], r_h['adapter_name'])
+                 DomainSuffixRule.new('domain_suffix', r_h['action'], r_h['list'], r_h['adapter_name'])
                when 'geoip'
-                 GeoipRule.new('geoip', r_h['action'], r_h['geoips'], r_h['adapter_name'])
+                 GeoipRule.new('geoip', r_h['action'], r_h['list'], r_h['adapter_name'])
                when 'ip_cidr'
-                 IpCidrRule.new('ip_cidr', r_h['action'], r_h['ip_cidrs'], r_h['adapter_name'])
+                 IpCidrRule.new('ip_cidr', r_h['action'], r_h['list'], r_h['adapter_name'])
                when 'other'
                  OtherRule.new('other', r_h['action'], r_h['adapter_name'])
                else

@@ -54,6 +54,8 @@ rake
 * [x] reject, but in browser has some bug???
 * [x] packet capture: http/https support
 * [x] reload config.json
+* [ ] yaml config support
+* [ ] surge config support
 * [ ] log
 * [ ] packet filter: header and body(http/https support)
 * [ ] DNS server

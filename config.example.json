@@ -46,7 +46,7 @@
   "rules": [
     {
       "type": "domain_suffix",
-      "domain_suffixs": [
+      "list": [
         "baidu.com",
         "tower.im",
         "liveneeq.com"
@@ -55,7 +55,7 @@
     },
     {
       "type": "domain",
-      "domains": [
+      "list": [
         "cpro.baidu.com",
         "stat.m.jd.com",
         "wangmeng.baidu.com",
@@ -65,14 +65,14 @@
     },
     {
       "type": "domain_suffix",
-      "domain_suffixs": [
+      "list": [
         "icloud.com"
       ],
       "action": "reject"
     },
     {
       "type": "domain_suffix",
-      "domain_suffixs": [
+      "list": [
         "qq.com",
         "163.com",
         "126.net"
@@ -81,7 +81,7 @@
     },
     {
       "type": "domain",
-      "domains": [
+      "list": [
         "google.com",
         "gitter.im"
       ],
@@ -90,7 +90,7 @@
     },
     {
       "type": "domain",
-      "domains": [
+      "list": [
         "baidu.com",
         "liveneeq.com",
         "tower.im",
@@ -100,7 +100,7 @@
     },
     {
       "type": "domain_suffix",
-      "domain_suffixs": [
+      "list": [
         "baidu.com",
         "liveneeq.com",
         "thecampus.cc"
@@ -109,7 +109,7 @@
     },
     {
       "type": "domain_keyword",
-      "domain_keywords": [
+      "list": [
         "google"
       ],
       "action": "shadowsocks",
@@ -117,7 +117,7 @@
     },
     {
       "type": "domain_suffix",
-      "domain_suffixs": [
+      "list": [
         "apple.com",
         "github.com",
         "github.io",
@@ -129,7 +129,7 @@
     },
     {
       "type": "ip_cidr",
-      "ip_cidrs": [
+      "list": [
         "91.108.56.0/22",
         "91.108.4.0/22"
       ],
@@ -138,7 +138,7 @@
     },
     {
       "type": "geoip",
-      "geoips": [
+      "list": [
         "CN"
       ],
       "action": "direct"
