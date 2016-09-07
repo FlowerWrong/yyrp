@@ -74,11 +74,11 @@ class Socks5ProxyServer < BaseProxyServer
     elsif @stage == 5
       @buff << data
       if data =~ /.*\s(.*)\sHTTP\/1\.1.*/
-        debug [:receive_data, 'http']
+        # debug [:receive_data, 'http']
         @parser = Http::Parser.new(self)
         @parser << data
       else
-        debug [:receive_data, 'https']
+        # debug [:receive_data, 'https']
         if to_relay
           @relay.send_data(@buff)
           @buff = ''
