@@ -83,7 +83,13 @@ class Socks5ProxyServer < BaseProxyServer
           @relay.send_data(@buff)
           @buff = ''
         else
-          close_connection and return
+          # FIXME it will retry
+          debug [:receive_data, "Maybe #{@domain} is reject, now close socket"]
+          # send_data("HTTP/1.1 200 OK\r\nContent-Length: 0\r\nConnection: close\r\n\r\n")
+          # timer = EventMachine.add_timer(3) do
+          #   close_connection_after_writing
+          # end
+          close_connection_after_writing and return
         end
       end
     else

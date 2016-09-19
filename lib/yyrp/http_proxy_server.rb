@@ -75,7 +75,11 @@ class HttpProxyServer < BaseProxyServer
       end
     else
       debug [:on_headers_complete, "Maybe #{@domain} is reject, now close socket"]
-      close_connection and return
+      # send_data("HTTP/1.1 200 OK\r\nContent-Length: 0\r\nConnection: close\r\n\r\n")
+      # timer = EventMachine.add_timer(3) do
+      #   close_connection_after_writing
+      # end
+      close_connection_after_writing and return
     end
   end
 
