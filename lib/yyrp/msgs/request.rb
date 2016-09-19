@@ -32,7 +32,7 @@ class Request
       begin
         Resolv.getaddress(@only_host)
       rescue => e
-        p e
+        Yyrp.logger.error e
         nil
       end
     end

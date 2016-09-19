@@ -1,15 +1,8 @@
 require 'eventmachine'
 
 class BaseProxyServer < EventMachine::Connection
-  def initialize(debug = false)
-    @debug = debug
-  end
+  attr_accessor :server
 
-  def debug(*data)
-    if @debug
-      require 'pp'
-      pp data
-      puts
-    end
+  def initialize
   end
 end

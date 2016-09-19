@@ -19,11 +19,10 @@ class Socks5ProxyServer < BaseProxyServer
     @relay = nil
     @buff = ''
     @stage = 1 # 1:协商版本及认证方式 2:请求信息
-    debug [:post_init, :socks5_proxy_server, 'someone proxy connected to the socks5 proxy server!']
   end
 
   def receive_data data
-    # debug [:receive_data, :socks5_proxy_server, @stage, data]
+    add_con
     # https://zh.wikipedia.org/wiki/SOCKS#SOCKS5
     # http://apidock.com/ruby/String/unpack
     if @stage == 1
@@ -32,9 +31,9 @@ class Socks5ProxyServer < BaseProxyServer
       version = data[0]
       nmethods = data[1]
       methods = data[2]
-      debug [:receive_data, version, nmethods, methods]
+      Yyrp.logger.debug [:receive_data, version, nmethods, methods]
       if version != 5
-        debug [:receive_data, @stage, 'not support this socks version, just support 5']
+        Yyrp.logger.debug [:receive_data, @stage, 'not support this socks version, just support 5']
         return
       end
       send_data [5, 0].pack('CC')
@@ -55,55 +54,44 @@ class Socks5ProxyServer < BaseProxyServer
           len = data.size
           @port = data[(len-2)..len].unpack('S>').first
         else
-          debug [:receive_data, @stage, 'not support this atype']
+          Yyrp.logger.debug [:receive_data, @stage, 'not support this atype']
           return
       end
-      debug [:receive_data, :socks5_proxy_server, cmd, @domain, @port, @atype, @domain_len]
+      Yyrp.logger.debug [:receive_data, :socks5_proxy_server, cmd, @domain, @port, @atype, @domain_len]
 
       case cmd
         when 1 # CONNECT请求
           send_data("\x05\x00\x00\x01\x00\x00\x00\x00" + [@port].pack('s>'))
         when 2, 3 # bind: FTP, udp
-          debug [:receive_data, @stage, 'not support this cmd']
+          Yyrp.logger.debug [:receive_data, @stage, 'not support this cmd']
           return
         else
-          debug [:receive_data, @stage, 'not support this cmd']
+          Yyrp.logger.debug [:receive_data, @stage, 'not support this cmd']
           return
       end
       @stage = 5
     elsif @stage == 5
       @buff << data
       if data =~ /.*\s(.*)\sHTTP\/1\.1.*/
-        # debug [:receive_data, 'http']
         @parser = Http::Parser.new(self)
         @parser << data
       else
-        # debug [:receive_data, 'https']
         if to_relay
           @relay.send_data(@buff)
           @buff = ''
         else
-          # FIXME it will retry
-          debug [:receive_data, "Maybe #{@domain} is reject, now close socket"]
-          # send_data("HTTP/1.1 200 OK\r\nContent-Length: 0\r\nConnection: close\r\n\r\n")
-          # timer = EventMachine.add_timer(3) do
-          #   close_connection_after_writing
-          # end
-          close_connection_after_writing and return
+          reject_reply and return
         end
       end
     else
-      debug [:receive_data, @stage, 'not support this stage']
+      Yyrp.logger.error [:receive_data, @stage, 'not support this stage']
       return
     end
   end
 
   def unbind
-    debug [:unbind, :socks5_proxy_server]
-    @relay.close_connection_after_writing unless @relay.nil?
-    @relay = nil
-    @parser = nil
-    @buff = nil
+    Yyrp.logger.debug [:unbind, :socks5_proxy_server]
+    del_con
     @stage = nil
   end
 
@@ -114,7 +102,7 @@ class Socks5ProxyServer < BaseProxyServer
 
   def on_headers_complete(headers)
     headers.delete('Proxy-Connection')
-    debug [:on_headers_complete, :socks5_proxy_server, headers.inspect]
+    Yyrp.logger.debug [:on_headers_complete, :socks5_proxy_server, headers.inspect]
     @headers = headers
     if to_relay
       @relay.send_data(@buff)
@@ -129,14 +117,13 @@ class Socks5ProxyServer < BaseProxyServer
   end
 
   def on_message_complete
-    debug [:on_message_complete, :socks5_proxy_server, @headers, @body]
+    Yyrp.logger.debug [:on_message_complete, :socks5_proxy_server, @headers, @body]
   end
 
   #
   # relay data from backend server to client
   #
   def relay_from_backend(data)
-    # debug [:relay_from_backend, :socks5_proxy_server, data]
     send_data data unless data.nil?
   end
 end

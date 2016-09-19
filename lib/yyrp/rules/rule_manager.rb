@@ -18,9 +18,9 @@ class RuleManager
       if rule.match(request)
         case rule.type
         when 'geoip'
-          puts "Rule match is #{rule.matched_rule}; country_code: #{request.country_code}"
+          Yyrp.logger.info "Rule match is #{rule.matched_rule}; country_code: #{request.country_code}"
         else
-          puts "Rule match is #{rule.matched_rule}"
+          Yyrp.logger.info "Rule match is #{rule.matched_rule}"
         end
         return [rule.adapter, rule.adapter_name]
       end
@@ -45,7 +45,7 @@ class RuleManager
                when 'other'
                  OtherRule.new('other', r_h['action'], r_h['adapter_name'])
                else
-                 p 'not support rule type'
+                 Yyrp.logger.error 'not support rule type'
                  nil
              end
       @rules << rule unless rule.nil?

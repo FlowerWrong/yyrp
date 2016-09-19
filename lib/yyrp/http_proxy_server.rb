@@ -8,7 +8,7 @@ require_relative 'adapters/direct_adapter'
 
 require_relative 'utils/relay'
 
-
+# initialize -> post_init -> server set con
 class HttpProxyServer < BaseProxyServer
   include Relay
 
@@ -17,12 +17,10 @@ class HttpProxyServer < BaseProxyServer
     @https = false
     @relay = nil
     @parser = Http::Parser.new(self)
-
-    debug [:post_init, :http_proxy_server, 'someone proxy connected to the http proxy server!']
   end
 
   def receive_data data
-    # debug [:receive_data, :http_proxy_server, data]
+    add_con
     @buff << data
     if @https && @relay
       @relay.send_data(data)
@@ -30,18 +28,15 @@ class HttpProxyServer < BaseProxyServer
       begin
         @parser << data
       rescue => e # HTTP::Parser::Error
-        p e
+        Yyrp.logger.error e
       end
     end
   end
 
   def unbind
-    debug [:unbind, :http_proxy_server]
-    @relay.close_connection_after_writing unless @relay.nil?
-    @https = false
-    @relay = nil
-    @parser = nil
-    @buff = nil
+    Yyrp.logger.debug [:unbind, :http_proxy_server]
+    del_con
+    @https = nil
   end
 
   def on_message_begin
@@ -50,7 +45,7 @@ class HttpProxyServer < BaseProxyServer
   end
 
   def on_headers_complete(headers)
-    debug [:on_headers_complete, :http_proxy_server, @parser.http_version, @parser.http_method, @parser.request_url, @parser.status_code, @parser.headers]
+    Yyrp.logger.debug [:on_headers_complete, :http_proxy_server, @parser.http_version, @parser.http_method, @parser.request_url, @parser.status_code, @parser.headers]
 
     # headers.delete('Proxy-Connection')
     @headers = headers
@@ -63,7 +58,7 @@ class HttpProxyServer < BaseProxyServer
     end
     @atype, @domain_len = 3, @domain.size
 
-    debug [:on_headers_complete, :http_proxy_server, @domain, @port, @atype, @domain_len]
+    Yyrp.logger.debug [:on_headers_complete, :http_proxy_server, @domain, @port, @atype, @domain_len]
 
     if to_relay
       if @parser.http_method == 'CONNECT'
@@ -74,12 +69,7 @@ class HttpProxyServer < BaseProxyServer
         @buff = ''
       end
     else
-      debug [:on_headers_complete, "Maybe #{@domain} is reject, now close socket"]
-      # send_data("HTTP/1.1 200 OK\r\nContent-Length: 0\r\nConnection: close\r\n\r\n")
-      # timer = EventMachine.add_timer(3) do
-      #   close_connection_after_writing
-      # end
-      close_connection_after_writing and return
+      reject_reply and return
     end
   end
 
@@ -88,7 +78,6 @@ class HttpProxyServer < BaseProxyServer
   end
 
   def on_message_complete
-    # debug [:on_message_complete, :http_proxy_server, @headers, @body]
     # TODO add request body
   end
 
@@ -96,7 +85,6 @@ class HttpProxyServer < BaseProxyServer
   # relay data from backend server to client
   #
   def relay_from_backend(data)
-    # debug [:relay_from_backend, :http_proxy_server, data]
     send_data data unless data.nil?
   end
 end

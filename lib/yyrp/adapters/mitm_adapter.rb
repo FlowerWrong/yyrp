@@ -4,7 +4,7 @@ require_relative 'base_adapter'
 
 class MitmAdapter < BaseAdapter
   def post_init
-    debug [:post_init, :mitm]
+    Yyrp.logger.debug [:post_init, :mitm]
   end
 
   def receive_data(data)
@@ -13,6 +13,6 @@ class MitmAdapter < BaseAdapter
 
   def unbind
     super
-    debug [:unbind, :mitm]
+    Yyrp.logger.debug [:unbind, :mitm]
   end
 end

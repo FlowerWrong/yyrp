@@ -6,8 +6,8 @@ require_relative '../shadowsocks/crypto'
 class ShadowsocksAdapter < BaseAdapter
   attr_accessor :crypto
 
-  def initialize(client, debug = false, crypto = nil, addr_to_send = nil)
-    super(client, debug)
+  def initialize(client, crypto = nil, addr_to_send = nil)
+    super(client)
     @crypto = crypto
     @addr_to_send = addr_to_send
   end
@@ -26,18 +26,17 @@ class ShadowsocksAdapter < BaseAdapter
   end
 
   def post_init
-    debug [:post_init, :shadowsocks, @addr_to_send]
+    Yyrp.logger.debug [:post_init, :shadowsocks, @addr_to_send]
     send_data(@addr_to_send)
   end
 
   def receive_data(data)
     data = decrypt(data)
-    # debug [:receive_data, :shadowsocks, data]
     @client.relay_from_backend(data)
   end
 
   def unbind
     super
-    debug [:unbind, :shadowsocks]
+    Yyrp.logger.debug [:unbind, :shadowsocks]
   end
 end

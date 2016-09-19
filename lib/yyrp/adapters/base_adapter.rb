@@ -2,17 +2,9 @@ require 'eventmachine'
 
 class BaseAdapter < EventMachine::Connection
 
-  def initialize(client, debug = false)
+  def initialize(client)
     super
     @client = client
-    @debug = debug
-  end
-
-  def debug(*data)
-    return unless @debug
-    require 'pp'
-    pp data
-    puts
   end
 
   def unbind

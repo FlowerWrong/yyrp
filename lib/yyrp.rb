@@ -2,6 +2,7 @@ require 'yyrp/version'
 require 'yyrp/http_proxy_server'
 require 'yyrp/socks5_proxy_server'
 require 'yyrp/config'
+require 'yyrp/server'
 
 require 'yyrp/mitm/lib/ritm'
 

@@ -76,7 +76,7 @@ class BaseRule
         @matched_rule = ['other', nil, req.description]
         return true
       else
-        p "not support rule type: #{@type}"
+        Yyrp.logger.error "not support rule type: #{@type}"
     end
     false
   end

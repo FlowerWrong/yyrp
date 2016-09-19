@@ -10,6 +10,32 @@ require_relative '../adapters/mitm_adapter'
 require_relative '../config'
 
 module Relay
+  def add_con
+    unless @server.connections.include?(self)
+      @server.connections << self
+      Yyrp.logger.info "@server.connections count is #{@server.connections.size}"
+    end
+  end
+
+  def del_con
+    @server.connections.delete(self)
+    Yyrp.logger.info "@server.connections count is #{@server.connections.size}"
+    @relay.close_connection_after_writing unless @relay.nil?
+    @relay = nil
+    @parser = nil
+    @buff = nil
+  end
+
+  def reject_reply
+    # FIXME it will retry
+    Yyrp.logger.debug [:on_headers_complete, "Maybe #{@domain} is reject, now close socket"]
+    # send_data("HTTP/1.1 200 OK\r\nContent-Length: 0\r\nConnection: close\r\n\r\n")
+    # timer = EventMachine.add_timer(3) do
+    #   close_connection_after_writing
+    # end
+    close_connection_after_writing
+  end
+
   def to_relay
     if @relay.nil?
       req = Request.new(@domain, @port)
@@ -20,15 +46,15 @@ module Relay
         req.headers = @parser.headers
         req.protocol = @https ? 'https' : 'http'
       end
-      puts '====' * 20
+      Yyrp.logger.debug '====' * 20
       time_start = Time.now
       # FIXME timeout
       adapter, adapter_name = RuleManager.instance.adapter(req)
-      debug [:to_relay, adapter, adapter_name]
+      Yyrp.logger.debug [:to_relay, adapter, adapter_name]
       time_end = Time.now
       time = time_end - time_start
-      puts time.to_s
-      puts '====' * 20
+      Yyrp.logger.debug "Parse rule spent #{time.to_s}s"
+      Yyrp.logger.debug '====' * 20
 
       if adapter.nil?
         return false
@@ -47,9 +73,9 @@ module Relay
           ss_passwd = ss_config['password']
           crypto = Shadowsocks::Crypto.new(method: ss_method, password: ss_passwd)
           begin
-            @relay = EventMachine::connect ss_host, ss_port, ShadowsocksAdapter, self, @debug, crypto, @addr_to_send
+            @relay = EventMachine::connect ss_host, ss_port, ShadowsocksAdapter, self, crypto, @addr_to_send
           rescue => e
-            p e
+            Yyrp.logger.error e
             return false
           end
         elsif adapter == MitmAdapter
@@ -57,18 +83,18 @@ module Relay
           mitm_host = mitm_config['host']
           mitm_port = mitm_config['port']
           begin
-            @relay = EventMachine::connect mitm_host, mitm_port, MitmAdapter, self, @debug
+            @relay = EventMachine::connect mitm_host, mitm_port, MitmAdapter, self
           rescue => e
-            p e
+            Yyrp.logger.error e
             return false
           end
         else
           # FIXME unable to resolve server address: Undefined error: 0 (EventMachine::ConnectionError)
           # https://www.altamiracorp.com/
           begin
-            @relay = EventMachine::connect @domain, @port, adapter, self, @debug
+            @relay = EventMachine::connect @domain, @port, adapter, self
           rescue => e
-            p e
+            Yyrp.logger.error e
             return false
           end
         end
