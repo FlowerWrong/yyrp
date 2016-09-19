@@ -85,6 +85,7 @@ class HttpProxyServer < BaseProxyServer
 
   def on_message_complete
     # debug [:on_message_complete, :http_proxy_server, @headers, @body]
+    # TODO add request body
   end
 
   #

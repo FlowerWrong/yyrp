@@ -15,7 +15,15 @@ class RuleManager
 
   def adapter(request)
     rules.each do |rule|
-      return [rule.adapter, rule.adapter_name] if rule.match(request)
+      if rule.match(request)
+        case rule.type
+        when 'geoip'
+          puts "Rule match is #{rule.matched_rule}; country_code: #{request.country_code}"
+        else
+          puts "Rule match is #{rule.matched_rule}"
+        end
+        return [rule.adapter, rule.adapter_name]
+      end
     end
     [nil, nil]
   end

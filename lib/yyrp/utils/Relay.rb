@@ -13,8 +13,22 @@ module Relay
   def to_relay
     if @relay.nil?
       req = Request.new(@domain, @port)
+      if @parser
+        req.method = @parser.http_method
+        req.http_version = @parser.http_version
+        req.request_url = @parser.request_url
+        req.headers = @parser.headers
+        req.protocol = @https ? 'https' : 'http'
+      end
+      puts '====' * 20
+      time_start = Time.now
+      # FIXME timeout
       adapter, adapter_name = RuleManager.instance.adapter(req)
       debug [:to_relay, adapter, adapter_name]
+      time_end = Time.now
+      time = time_end - time_start
+      puts time.to_s
+      puts '====' * 20
 
       if adapter.nil?
         return false

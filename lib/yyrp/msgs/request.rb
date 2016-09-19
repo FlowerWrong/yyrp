@@ -5,13 +5,17 @@ require 'maxmind_geoip2'
 require_relative '../config'
 
 class Request
-  attr_accessor :host, :only_host, :port, :ip_address, :headers, :body, :method, :http_version, :request_line
+  attr_accessor :host, :only_host, :port, :ip_address, :headers, :body, :method, :http_version, :request_url, :protocol
   attr_reader :country_code
   def initialize(host, port, headers = {})
     @host = host # maybe domain, maybe ip
     @port = port
     @only_host = nil # must be domain, or nil
     @headers = headers
+  end
+
+  def description
+    "host: #{host}; port: #{port}; ip_address: #{ip_address}, method: #{method}; http_version: #{http_version}"
   end
 
   def only_host
