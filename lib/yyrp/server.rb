@@ -1,8 +1,9 @@
 require 'eventmachine'
-require 'logging'
 require 'active_support/core_ext/hash/keys'
 require 'yyrp/http_proxy_server'
 require 'yyrp/socks5_proxy_server'
+
+require 'awesome_print'
 
 module Yyrp
   class Server
@@ -10,20 +11,7 @@ module Yyrp
 
     def initialize
       @connections = []
-      init_config
-    end
-
-    def init_config
-      json_str = File.read(Yyrp.config_file)
-      config_hash = JSON.parse(json_str)
-      # config_hash.deep_symbolize_keys!
-      Yyrp.configure do |config|
-        config.servers = config_hash['servers']
-        config.adapters = config_hash['adapters']
-        config.rules = config_hash['rules']
-        config.logger = Logging.logger(STDOUT)
-        config.logger.level = :debug
-      end
+      Yyrp.set_config
     end
 
     def start
@@ -39,28 +27,26 @@ module Yyrp
         con.server = self
       end
       Yyrp.logger.info "http and socks5 proxy server started on #{http_port} #{socks_port}"
+      add_config_file_listener
     end
 
     def stop
       EventMachine.stop
-      # EventMachine.stop_server(@signature_http)
-      # EventMachine.stop_server(@signature_socks5)
-      #
-      # unless wait_for_connections_and_stop
-      #   EventMachine.add_periodic_timer(1) { wait_for_connections_and_stop }
-      # end
     end
 
-    private
-
-    def wait_for_connections_and_stop
-      if @connections.empty?
-        EventMachine.stop
-        true
-      else
-        puts "Waiting for #{@connections.size} connection(s) to stop"
-        false
-      end
+    def add_config_file_listener
+      config_md5 = Yyrp.file_md5(Yyrp.config_file)
+      Yyrp.logger.info "Origin config file md5 is #{config_md5}"
+      EM.add_periodic_timer(3) {
+        # if file changed, reset config
+        new_config_md5 = Yyrp.file_md5(Yyrp.config_file)
+        if config_md5 != new_config_md5
+          Yyrp.logger.info "It is time to reset config with md5 #{new_config_md5}"
+          config_md5 = new_config_md5
+          Yyrp.set_config
+          ap Yyrp.config.rules
+        end
+      }
     end
   end
 end

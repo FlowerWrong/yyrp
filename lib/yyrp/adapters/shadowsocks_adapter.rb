@@ -37,6 +37,5 @@ class ShadowsocksAdapter < BaseAdapter
 
   def unbind
     super
-    Yyrp.logger.debug [:unbind, :shadowsocks]
   end
 end

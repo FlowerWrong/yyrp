@@ -31,9 +31,8 @@ class Socks5ProxyServer < BaseProxyServer
       version = data[0]
       nmethods = data[1]
       methods = data[2]
-      Yyrp.logger.debug [:receive_data, version, nmethods, methods]
       if version != 5
-        Yyrp.logger.debug [:receive_data, @stage, 'not support this socks version, just support 5']
+        Yyrp.logger.error [:receive_data, @stage, 'not support this socks version, just support 5']
         return
       end
       send_data [5, 0].pack('CC')
@@ -54,7 +53,7 @@ class Socks5ProxyServer < BaseProxyServer
           len = data.size
           @port = data[(len-2)..len].unpack('S>').first
         else
-          Yyrp.logger.debug [:receive_data, @stage, 'not support this atype']
+          Yyrp.logger.error [:receive_data, @stage, 'not support this atype']
           return
       end
       Yyrp.logger.debug [:receive_data, :socks5_proxy_server, cmd, @domain, @port, @atype, @domain_len]
@@ -90,7 +89,6 @@ class Socks5ProxyServer < BaseProxyServer
   end
 
   def unbind
-    Yyrp.logger.debug [:unbind, :socks5_proxy_server]
     del_con
     @stage = nil
   end
@@ -101,8 +99,7 @@ class Socks5ProxyServer < BaseProxyServer
   end
 
   def on_headers_complete(headers)
-    headers.delete('Proxy-Connection')
-    Yyrp.logger.debug [:on_headers_complete, :socks5_proxy_server, headers.inspect]
+    # headers.delete('Proxy-Connection')
     @headers = headers
     if to_relay
       @relay.send_data(@buff)
@@ -117,7 +114,6 @@ class Socks5ProxyServer < BaseProxyServer
   end
 
   def on_message_complete
-    Yyrp.logger.debug [:on_message_complete, :socks5_proxy_server, @headers, @body]
   end
 
   #

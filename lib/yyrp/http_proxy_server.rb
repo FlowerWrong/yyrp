@@ -34,7 +34,6 @@ class HttpProxyServer < BaseProxyServer
   end
 
   def unbind
-    Yyrp.logger.debug [:unbind, :http_proxy_server]
     del_con
     @https = nil
   end
@@ -45,8 +44,6 @@ class HttpProxyServer < BaseProxyServer
   end
 
   def on_headers_complete(headers)
-    Yyrp.logger.debug [:on_headers_complete, :http_proxy_server, @parser.http_version, @parser.http_method, @parser.request_url, @parser.status_code, @parser.headers]
-
     # headers.delete('Proxy-Connection')
     @headers = headers
     @domain, @port = headers['Host'].split(':')
