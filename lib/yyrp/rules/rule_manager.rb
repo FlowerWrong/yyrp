@@ -17,6 +17,7 @@ class RuleManager
     rules.each do |rule|
       return [rule.adapter, rule.adapter_name] if rule.match(request)
     end
+    [nil, nil]
   end
 
   def rules

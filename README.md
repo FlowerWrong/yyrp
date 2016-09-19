@@ -77,6 +77,7 @@ rake
 * [ ] ip support: 123.56.230.53:29231
 * [ ] 网易云音乐 search not work
 * [ ] mitm can not handle http, https only
+* [ ] DNS 解析失败会导致卡死
 
 ## Proxy
 

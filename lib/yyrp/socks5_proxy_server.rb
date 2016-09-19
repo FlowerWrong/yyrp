@@ -10,7 +10,7 @@ require_relative 'shadowsocks/crypto'
 require_relative 'rules/rule_manager'
 require_relative 'msgs/request'
 
-require_relative 'utils/Relay'
+require_relative 'utils/relay'
 
 class Socks5ProxyServer < BaseProxyServer
   include Relay

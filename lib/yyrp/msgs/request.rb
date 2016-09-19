@@ -10,7 +10,7 @@ class Request
   def initialize(host, port, headers = {})
     @host = host # maybe domain, maybe ip
     @port = port
-    @only_host = nil # must be host, or nil
+    @only_host = nil # must be domain, or nil
     @headers = headers
   end
 
@@ -44,6 +44,5 @@ class Request
     else
       res['country_code']
     end
-
   end
 end

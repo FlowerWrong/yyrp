@@ -6,7 +6,7 @@ require 'awesome_print'
 require_relative 'base_proxy_server'
 require_relative 'adapters/direct_adapter'
 
-require_relative 'utils/Relay'
+require_relative 'utils/relay'
 
 
 class HttpProxyServer < BaseProxyServer
@@ -52,7 +52,7 @@ class HttpProxyServer < BaseProxyServer
   def on_headers_complete(headers)
     debug [:on_headers_complete, :http_proxy_server, @parser.http_version, @parser.http_method, @parser.request_url, @parser.status_code, @parser.headers]
 
-    headers.delete('Proxy-Connection')
+    # headers.delete('Proxy-Connection')
     @headers = headers
     @domain, @port = headers['Host'].split(':')
     if @parser.http_method == 'CONNECT'
