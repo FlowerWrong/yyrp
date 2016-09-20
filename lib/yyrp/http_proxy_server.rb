@@ -66,7 +66,8 @@ class HttpProxyServer < BaseProxyServer
         @buff = ''
       end
     else
-      reject_reply and return
+      reject_reply
+      return
     end
   end
 
@@ -76,6 +77,12 @@ class HttpProxyServer < BaseProxyServer
 
   def on_message_complete
     # TODO add request body
+    if @domain =~ /.*163.*/ || @domain =~ /.*126.*/ || @domain =~ /.*music.*/
+      Yyrp.logger.debug '-' * 30
+      Yyrp.logger.debug @parser.request_url
+      Yyrp.logger.debug @headers
+      Yyrp.logger.debug @body
+    end
   end
 
   #

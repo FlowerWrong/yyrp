@@ -12,6 +12,12 @@
       "host": "0.0.0.0",
       "port": 7778
     },
+    "ss": {
+      "host": "0.0.0.0",
+      "port": 7780,
+      "password": "sspass",
+      "method": "aes-256-cfb"
+    },
     "mitm": {
       "host": "0.0.0.0",
       "port": 7779,
@@ -26,10 +32,10 @@
     "shadowsocks": [
       {
         "name": "HK",
-        "host": "domain or server",
-        "port": 6666,
+        "host": "ss server",
+        "port": 7780,
         "method": "aes-256-cfb",
-        "password": "pass"
+        "password": "ss pass"
       }
     ],
     "http": [
@@ -73,7 +79,8 @@
       "list": [
         "cloudfront",
         "umeng.co",
-        "flurry.co"
+        "flurry.co",
+        "analysis"
       ],
       "action": "reject"
     },
@@ -81,13 +88,13 @@
       "type": "domain_suffix",
       "list": [
         "qq.com",
-        "163.com",
-        "126.net",
         "ruby-china.org",
         "upaiyun.com",
         "mobiruby.org",
         "jd.com",
-        "netnease.com"
+        "netnease.com",
+        "163.com",
+        "126.net"
       ],
       "action": "direct"
     },
@@ -104,7 +111,9 @@
         "liveneeq",
         "tower",
         "thecampus",
-        "zhimg"
+        "zhimg",
+        "v2ex",
+        "upyun"
       ],
       "action": "direct"
     },
@@ -140,6 +149,7 @@
         "github.com",
         "github.io",
         "gitbooks.io",
+        "githubapp.com",
         "githubusercontent.com",
         "wikipedia.org",
         "medium.com",
@@ -152,6 +162,13 @@
       "adapter_name": "HK"
     },
     {
+      "type": "geoip",
+      "list": [
+        "CN"
+      ],
+      "action": "direct"
+    },
+    {
       "type": "ip_cidr",
       "list": [
         "192.168.0.0/16",
@@ -159,7 +176,7 @@
         "172.16.0.0/12",
         "127.0.0.0/8"
       ],
-      "action": "reject"
+      "action": "direct"
     },
     {
       "type": "ip_cidr",
@@ -289,13 +306,6 @@
       ],
       "action": "shadowsocks",
       "adapter_name": "HK"
-    },
-    {
-      "type": "geoip",
-      "list": [
-        "CN"
-      ],
-      "action": "direct"
     },
     {
       "type": "other",

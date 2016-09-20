@@ -13,13 +13,13 @@ module Relay
   def add_con
     unless @server.connections.include?(self)
       @server.connections << self
-      Yyrp.logger.info "@server.connections count is #{@server.connections.size}"
+      Yyrp.logger.info "@server.connections +1 count is #{@server.connections.size}"
     end
   end
 
   def del_con
     @server.connections.delete(self)
-    Yyrp.logger.info "@server.connections count is #{@server.connections.size}"
+    Yyrp.logger.info "@server.connections -1 count is #{@server.connections.size}"
     @relay.close_connection_after_writing unless @relay.nil?
     @relay = nil
     @parser = nil

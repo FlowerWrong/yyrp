@@ -1,83 +1,48 @@
 require 'eventmachine'
-require 'uuid'
+require 'active_support/core_ext/hash/keys'
+require 'yyrp/shadowsocks/connection'
 
-require_relative '../adapters/direct_adapter'
-require_relative 'crypto'
+require 'awesome_print'
 
-class ShadowsocksServer < EventMachine::Connection
-  attr_accessor :crypto, :cached_pieces
+module Yyrp
+  class ShadowsocksServer
+    attr_accessor :connections
 
-  def initialize(pass = 'liveneeq.com', method = 'aes-256-cfb', debug = false)
-    @debug = debug
-    @crypto = Shadowsocks::Crypto.new(method: method, password: pass)
-  end
-
-  def encrypt(buf)
-    @crypto.encrypt(buf)
-  end
-
-  def decrypt(buf)
-    @crypto.decrypt(buf)
-  end
-
-  def post_init
-    @relay = nil
-    debug [:post_init, :shadowsocks_server, 'someone proxy connected to the shadowsocks server!']
-
-    @stage = 0
-    @cached_pieces = []
-  end
-
-  def receive_data data
-    data = decrypt(data)
-    debug [:receive_data, data]
-    if @stage == 0
-      @atype, @domain_len = data.unpack('C2')
-      header_len = 2 + @domain_len + 2
-      case @atype
-        when 3
-          @domain = data[2..(@domain_len + 1)]
-          @port = data[(header_len-2)..header_len].unpack('S>').first
-        else
-          debug [:receive_data, @stage, "not support this atype: #{@atype}"]
-          return
-      end
-      debug [:receive_data, @atype, @domain_len, @domain, @port]
-
-      @relay = EventMachine::connect @domain, @port, DirectAdapter, self, @debug
-
-      if data.size > header_len
-        @cached_pieces << data[header_len, data.size]
-        debug [:receive_data, :cached_pieces, @cached_pieces]
-        @cached_pieces.each {|piece| @relay.send_data(piece)}
-        @cached_pieces = nil
-        @stage = 5
-      end
-    elsif @stage == 5
-      @relay.send_data(data)
+    def initialize
+      @connections = []
+      Yyrp.set_config
     end
-  end
 
-  def unbind
-    debug [:unbind, :shadowsocks_server]
-    @relay.close_connection_after_writing unless @relay.nil?
-    @relay = nil
-  end
+    def start
+      ss_host = Yyrp.config.servers['ss']['host']
+      ss_port = Yyrp.config.servers['ss']['port']
+      pass = Yyrp.config.servers['ss']['password']
+      method = Yyrp.config.servers['ss']['method']
 
-  #
-  # relay data from backend server to client
-  #
-  def relay_from_backend(data)
-    data = encrypt(data)
-    debug [:relay_from_backend, :shadowsocks_server, data]
-    send_data data unless data.nil?
-  end
+      @signature = EventMachine.start_server(ss_host, ss_port, ShadowsocksConnection, pass, method) do |con|
+        con.server = self
+      end
+      Yyrp.logger.info "ss server started on #{ss_port}"
+      # add_config_file_listener
+    end
 
-  def debug(*data)
-    if @debug
-      require 'pp'
-      pp data
-      puts
+    def stop
+      EventMachine.stop
+    end
+
+    def add_config_file_listener
+      config_md5 = Yyrp.file_md5(Yyrp.config_file)
+      Yyrp.logger.info "Origin config file md5 is #{config_md5}"
+      EM.add_periodic_timer(3) {
+        # if file changed, reset config
+        new_config_md5 = Yyrp.file_md5(Yyrp.config_file)
+        if config_md5 != new_config_md5
+          Yyrp.logger.info "It is time to reset config with md5 #{new_config_md5}"
+          config_md5 = new_config_md5
+          Yyrp.set_config
+          ap Yyrp.config.rules
+        end
+      }
     end
   end
 end

@@ -75,7 +75,7 @@ rake
 * [ ] [altamiracorp.com](https://www.altamiracorp.com/): DNS resolve bug. `Resolv.getaddress` in request and `EventMachine::connect` in relay.
 * [x] safari not working
 * [ ] ip support: 123.56.230.53:29231
-* [ ] 网易云音乐 search not work
+* [ ] 网易云音乐 search not work, download file with http?
 * [ ] mitm can not handle http, https only
 * [ ] DNS 解析失败会导致卡死
 * [ ] ip cidr cal a long time

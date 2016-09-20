@@ -79,7 +79,8 @@ class Socks5ProxyServer < BaseProxyServer
           @relay.send_data(@buff)
           @buff = ''
         else
-          reject_reply and return
+          reject_reply
+          return
         end
       end
     else
@@ -105,7 +106,8 @@ class Socks5ProxyServer < BaseProxyServer
       @relay.send_data(@buff)
       @buff = ''
     else
-      close_connection and return
+      close_connection
+      return
     end
   end
 

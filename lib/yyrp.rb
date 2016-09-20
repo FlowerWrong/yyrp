@@ -1,6 +1,7 @@
 require 'yyrp/version'
 require 'yyrp/http_proxy_server'
 require 'yyrp/socks5_proxy_server'
+require 'yyrp/shadowsocks/server'
 require 'yyrp/config'
 require 'yyrp/server'
 require 'logging'
