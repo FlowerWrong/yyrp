@@ -63,7 +63,13 @@ class ShadowsocksConnection < EventMachine::Connection
       Yyrp.logger.info [:receive_data, @atype, @domain_len, @domain, @port]
 
       if @domain && @port
-        @relay = EventMachine::connect @domain, @port, DirectAdapter, self
+        begin
+          @relay = EventMachine::connect @domain, @port, DirectAdapter, self
+        rescue => e
+          Yyrp.logger.error e
+          close_connection
+          return
+        end
         if data.size > header_len
           @cached_pieces << data[header_len, data.size]
           @cached_pieces.each {|piece| @relay.send_data(piece)}
