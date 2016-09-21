@@ -1,46 +1,51 @@
 require 'eventmachine'
 require 'active_support/core_ext/hash/keys'
 require 'yyrp/shadowsocks/connection'
-
-require 'awesome_print'
+require 'yyrp/shadowsocks/models'
+require 'yyrp/shadowsocks/server_pool'
+require 'yyrp/config'
 
 module Yyrp
   class ShadowsocksServer
-    attr_accessor :connections
+    attr_accessor :connections, :server_pool
 
     def initialize
       @connections = []
       Yyrp.set_config
+
+      ActiveRecord::Base.establish_connection(
+        adapter:  'mysql2',
+        host:     Yyrp.config.servers['mysql']['host'],
+        username: Yyrp.config.servers['mysql']['username'],
+        password: Yyrp.config.servers['mysql']['password'],
+        database: Yyrp.config.servers['mysql']['database']
+      )
+      ActiveRecord::Base.default_timezone = :local
     end
 
     def start
-      ss_host = Yyrp.config.servers['ss']['host']
-      ss_port = Yyrp.config.servers['ss']['port']
-      pass = Yyrp.config.servers['ss']['password']
-      method = Yyrp.config.servers['ss']['method']
-
-      @signature = EventMachine.start_server(ss_host, ss_port, ShadowsocksConnection, pass, method) do |con|
-        con.server = self
-      end
-      Yyrp.logger.info "ss server started on #{ss_port}"
-      # add_config_file_listener
+      @server_pool = Shadowsocks::ServerPool.new(self)
+      dynamic_server_timer
     end
 
     def stop
       EventMachine.stop
     end
 
-    def add_config_file_listener
-      config_md5 = Yyrp.file_md5(Yyrp.config_file)
-      Yyrp.logger.info "Origin config file md5 is #{config_md5}"
+    def dynamic_server_timer
       EM.add_periodic_timer(3) {
-        # if file changed, reset config
-        new_config_md5 = Yyrp.file_md5(Yyrp.config_file)
-        if config_md5 != new_config_md5
-          Yyrp.logger.info "It is time to reset config with md5 #{new_config_md5}"
-          config_md5 = new_config_md5
-          Yyrp.set_config
-          ap Yyrp.config.rules
+        User.where(enable: true).each do |user|
+          if (user.expire_time > Time.now) && (user.flow_up + user.flow_down < user.total_flow)
+            if @server_pool.servers == {} || (@server_pool.servers != {} && @server_pool.servers[user.port].nil?)
+              Yyrp.logger.info "user #{user.id} port: #{user.port}, method: #{user.method} to be start"
+              @server_pool.create('0.0.0.0', user.port, user.sspass, user.method)
+            end
+          else
+            if @server_pool.servers != {} && !@server_pool.servers[user.port].nil?
+              Yyrp.logger.info "user #{user.id} port: #{user.port}, method: #{user.method} to be stop"
+              @server_pool.destroy(user.port)
+            end
+          end
         end
       }
     end
