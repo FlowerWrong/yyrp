@@ -12,11 +12,12 @@
       "host": "0.0.0.0",
       "port": 7778
     },
-    "ss": {
-      "host": "0.0.0.0",
-      "port": 7780,
-      "password": "sspass",
-      "method": "aes-256-cfb"
+    "mysql": {
+      "host": "127.0.0.1",
+      "port": 3306,
+      "username": "root",
+      "password": "",
+      "database": "ssadmin_development"
     },
     "mitm": {
       "host": "0.0.0.0",
@@ -32,10 +33,17 @@
     "shadowsocks": [
       {
         "name": "HK",
-        "host": "ss server",
+        "host": "server",
+        "port": 6666,
+        "method": "aes-256-cfb",
+        "password": "pass"
+      },
+      {
+        "name": "SS_LOCALHOST",
+        "host": "127.0.0.1",
         "port": 7780,
         "method": "aes-256-cfb",
-        "password": "ss pass"
+        "password": "pass"
       }
     ],
     "http": [
@@ -53,13 +61,22 @@
     {
       "type": "domain",
       "list": [
+        "liveneeq.com"
+      ],
+      "action": "shadowsocks",
+      "adapter_name": "SS_LOCALHOST"
+    },
+    {
+      "type": "domain",
+      "list": [
         "cpro.baidu.com",
         "stat.m.jd.com",
         "wangmeng.baidu.com",
         "www.gstatic.com",
         "pingma.qq.com",
         "ads.mopub.com",
-        "init.icloud-analysis.com"
+        "init.icloud-analysis.com",
+        "fonts.googleapis.com"
       ],
       "action": "reject"
     },
@@ -70,7 +87,8 @@
         "mmstat.com",
         "monitor.uu.qq.com",
         "beacon.qq.com",
-        "mob.com"
+        "mob.com",
+		"mzstatic.com"
       ],
       "action": "reject"
     },
@@ -94,7 +112,8 @@
         "jd.com",
         "netnease.com",
         "163.com",
-        "126.net"
+        "126.net",
+        "bdstatic.com"
       ],
       "action": "direct"
     },
@@ -137,7 +156,9 @@
         "gmail",
         "golang",
         "wikipedia",
-        "linkedin"
+        "linkedin",
+        "cocos",
+        "placehold"
       ],
       "action": "shadowsocks",
       "adapter_name": "HK"
@@ -156,7 +177,16 @@
         "maven.apache.org",
         "huangz.me",
         "t66y.com",
-        "docker.com"
+        "docker.com",
+        "disqus.com",
+        "codementor.io",
+        "onesignal.com",
+        "gravatar.com",
+        "bootstrapcdn.com",
+        "herokuapp.com",
+        "amazonaws.com",
+        "filepicker.io",
+        "startbootstrap.com"
       ],
       "action": "shadowsocks",
       "adapter_name": "HK"
