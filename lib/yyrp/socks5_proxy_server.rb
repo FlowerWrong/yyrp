@@ -42,13 +42,13 @@ class Socks5ProxyServer < BaseProxyServer
       _, cmd, _, @atype, @domain_len = data.unpack('C5')
       case @atype
         when 1 # 1: ipv4, 4 bytes
-          ip = data[5..9]
+          ip = data[5..8]
           @domain = ip
-          @port = data[9..11].unpack('S>').first
+          @port = data[9..10].unpack('S>').first
         when 4 # 4: ipv6, 16 bytes
-          ip = data[5..21]
+          ip = data[5..20]
           @domain = ip
-          @port = data[21..23].unpack('S>').first
+          @port = data[21..22].unpack('S>').first
         when 3 # domain name
           @domain = data[5..(@domain_len + 4)]
           len = data.size

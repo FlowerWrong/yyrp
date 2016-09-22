@@ -1,5 +1,6 @@
 require 'eventmachine'
 require 'uuid'
+require 'ipaddr'
 
 require_relative '../adapters/direct_adapter'
 require_relative 'crypto'
@@ -36,18 +37,23 @@ class ShadowsocksConnection < BaseProxyServer
     # 更新用户流量到数据库
     user = get_user
     user.update(flow_up: user.flow_up + data.size) unless user.nil?
-
     data = decrypt(data)
+    stage_handler(data)
+  end
+
+  def stage_handler(data)
+    p data
     if @stage == 0
       @atype, @domain_len = data.unpack('C2')
+      return if @domain_len.nil?
       header_len = 2 + @domain_len + 2
-      # FIXME [:receive_data, 0, "not support this atype: 22"]
       case @atype
+        when 1 # 1: ipv4, 4 bytes
+          @domain = inet_ntoa(data[1..4])
+          @port = data[5, 2].unpack('s>')[0]
+          Yyrp.logger.info "ipv4 ip is #{@domain}, port is #{@port}"
+          stage_handler(data[7..(data.size - 1)]) # FIXME
         # TODO
-        # when 1 # 1: ipv4, 4 bytes
-        #   ip = data[5..9]
-        #   @domain = ip
-        #   @port = data[9..11].unpack('S>').first
         # when 4 # 4: ipv6, 16 bytes
         #   ip = data[5..21]
         #   @domain = ip
@@ -100,6 +106,10 @@ class ShadowsocksConnection < BaseProxyServer
   end
 
   private
+
+  def inet_ntoa(n)
+    n.unpack("C*").join "."
+  end
 
   def get_user
     users = User.where(enable: true, port: @listen_port)
