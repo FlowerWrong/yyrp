@@ -8,11 +8,11 @@ require 'yyrp/utils/relay'
 require 'yyrp/shadowsocks/models'
 require 'yyrp/shadowsocks/server_pool'
 require 'yyrp/config'
+require 'yyrp/base_proxy_server'
 
-
-class ShadowsocksConnection < EventMachine::Connection
+class ShadowsocksConnection < BaseProxyServer
   include Relay
-  attr_accessor :crypto, :cached_pieces, :server, :listen_port
+  attr_accessor :crypto, :cached_pieces, :listen_port, :server
 
   def initialize(pass = 'liveneeq.com', method = 'aes-256-cfb')
     @crypto = Shadowsocks::Crypto.new(method: method, password: pass)
@@ -80,6 +80,7 @@ class ShadowsocksConnection < EventMachine::Connection
     elsif @stage == 5
       @relay.send_data(data)
     end
+    outbound_scheduler(@relay) if @relay
   end
 
   def unbind

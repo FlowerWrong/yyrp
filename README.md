@@ -73,6 +73,8 @@ rake
 ## Shadowsocks server TODO
 
 * [ ] onetime authentication
+* [ ] autoban
+* [ ] download big file [memory bug](http://sen.github.io/shadowsocks/2014/01/18/shadowsocks-event.html)
 
 ## Known bugs
 

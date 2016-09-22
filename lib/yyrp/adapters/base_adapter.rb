@@ -1,9 +1,8 @@
 require 'eventmachine'
+require 'yyrp/base_proxy_server'
 
-class BaseAdapter < EventMachine::Connection
-
+class BaseAdapter < BaseProxyServer
   def initialize(client)
-    super
     @client = client
   end
 

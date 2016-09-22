@@ -11,6 +11,7 @@ require_relative 'utils/relay'
 # initialize -> post_init -> server set con
 class HttpProxyServer < BaseProxyServer
   include Relay
+  attr_accessor :server
 
   def post_init
     @buff = ''

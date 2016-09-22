@@ -14,6 +14,7 @@ require_relative 'utils/relay'
 
 class Socks5ProxyServer < BaseProxyServer
   include Relay
+  attr_accessor :server
 
   def post_init
     @relay = nil
