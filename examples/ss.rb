@@ -10,11 +10,13 @@ def run
     Signal.trap('INT') { stop }
     Signal.trap('TERM') { stop }
 
-    log = Logging.logger['shadowsocks_log']
-    log.add_appenders Logging.appenders.file('/tmp/shadowsocks.log')
-    Yyrp.configure do |config|
-      config.logger = log
-      config.logger.level = :debug
+    if ENV['daemon'] == 'yes'
+      log = Logging.logger['shadowsocks_log']
+      log.add_appenders Logging.appenders.file('/tmp/shadowsocks.log')
+      Yyrp.configure do |config|
+        config.logger = log
+        config.logger.level = :debug
+      end
     end
 
     server.start
@@ -33,41 +35,53 @@ def get_pid
 end
 
 def start
-  pid = get_pid
-  if pid != 0
-    warn 'Daemon is already running'
-    exit -1
-  end
+  if ENV['daemon'] == 'yes'
+    pid = get_pid
+    if pid != 0
+      warn 'Daemon is already running'
+      exit -1
+    end
 
-  pid = fork {
+    pid = fork {
+      run
+    }
+    begin
+      file = File.new(@pid_full, 'w')
+      file.write(pid)
+      file.close
+      Process.detach(pid)
+    rescue => exc
+      Process.kill('TERM', pid)
+      warn "Cannot start daemon: #{exc.message}"
+    end
+  else
     run
-  }
-  begin
-    file = File.new(@pid_full, 'w')
-    file.write(pid)
-    file.close
-    Process.detach(pid)
-  rescue => exc
-    Process.kill('TERM', pid)
-    warn "Cannot start daemon: #{exc.message}"
   end
 end
 
 def stop
-  pid = get_pid
-  begin
-    EM.stop
-  rescue => exc
-    warn "Stop server exception: #{exc.message}"
-  end
+  if ENV['daemon'] == 'yes'
+    pid = get_pid
+    begin
+      EM.stop
+    rescue => exc
+      warn "Stop server exception: #{exc.message}"
+    end
 
-  if pid != 0
-    Process.kill('HUP', pid.to_i)
-    File.delete(@pid_full)
-    warn 'Stopped'
+    if pid != 0
+      Process.kill('HUP', pid.to_i)
+      File.delete(@pid_full)
+      warn 'Stopped'
+    else
+      warn 'Daemon is not running'
+      exit -1
+    end
   else
-    warn 'Daemon is not running'
-    exit -1
+    begin
+      EM.stop
+    rescue => exc
+      warn "Stop server exception: #{exc.message}"
+    end
   end
 end
 
