@@ -42,7 +42,7 @@ class Request
     # undefined method `[]' for nil:NilClass
     return nil if ip_address.nil?
     MaxmindGeoIP2.file(Yyrp.config.servers['mmdb']['path'])
-    res = MaxmindGeoIP2.locate(ip_address)
+    res = MaxmindGeoIP2.locate(ip_address) if ip_address
     if res.nil? || ip_address.nil?
       nil
     else

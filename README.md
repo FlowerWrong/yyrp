@@ -70,6 +70,10 @@ rake
 * [ ] socks5 proxy server with auth support
 * [ ] more shadowsocks method support
 
+## Shadowsocks server TODO
+
+* [ ] onetime authentication
+
 ## Known bugs
 
 * [ ] [altamiracorp.com](https://www.altamiracorp.com/): DNS resolve bug. `Resolv.getaddress` in request and `EventMachine::connect` in relay.

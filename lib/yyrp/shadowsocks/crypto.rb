@@ -39,6 +39,10 @@ module Shadowsocks
     def encrypt buf
       return buf if buf.length == 0 or method == 'none'
 
+      if @cipher.nil?
+        @cipher = get_cipher(1, SecureRandom.hex(32))
+      end
+
       if iv_sent
         @cipher.update(buf)
       else
@@ -73,7 +77,7 @@ module Shadowsocks
 
       key, _iv   = EVP_BytesToKey(m[0], m[1])
 
-      iv         = _iv[0..m[1] - 1]
+      iv         = iv[0..m[1] - 1]
       @iv        = iv unless @iv
       @cipher_iv = iv if op == 1
 

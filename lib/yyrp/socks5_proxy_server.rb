@@ -58,17 +58,22 @@ class Socks5ProxyServer < BaseProxyServer
       end
       Yyrp.logger.debug [:receive_data, :socks5_proxy_server, cmd, @domain, @port, @atype, @domain_len]
 
-      case cmd
-        when 1 # CONNECT请求
-          send_data("\x05\x00\x00\x01\x00\x00\x00\x00" + [@port].pack('s>'))
-        when 2, 3 # bind: FTP, udp
-          Yyrp.logger.debug [:receive_data, @stage, 'not support this cmd']
-          return
-        else
-          Yyrp.logger.debug [:receive_data, @stage, 'not support this cmd']
-          return
+      if @domain && @port
+        case cmd
+          when 1 # CONNECT请求
+            send_data("\x05\x00\x00\x01\x00\x00\x00\x00" + [@port].pack('s>'))
+          when 2, 3 # bind: FTP, udp
+            Yyrp.logger.debug [:receive_data, @stage, 'not support this cmd']
+            return
+          else
+            Yyrp.logger.debug [:receive_data, @stage, 'not support this cmd']
+            return
+        end
+        @stage = 5
+      else
+        Yyrp.logger.error [:receive_data, @domain, @port]
+        return
       end
-      @stage = 5
     elsif @stage == 5
       @buff << data
       if data =~ /.*\s(.*)\sHTTP\/1\.1.*/
