@@ -11,6 +11,10 @@ module Yyrp
 
     def initialize
       @connections = []
+      init_config
+    end
+
+    def init_config
       Yyrp.set_config
 
       ActiveRecord::Base.establish_connection(
