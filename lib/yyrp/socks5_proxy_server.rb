@@ -45,14 +45,14 @@ class Socks5ProxyServer < BaseProxyServer
           ip = data[5..8]
           @domain = ip
           @port = data[9..10].unpack('S>').first
-        when 4 # 4: ipv6, 16 bytes
-          ip = data[5..20]
-          @domain = ip
-          @port = data[21..22].unpack('S>').first
         when 3 # domain name
           @domain = data[5..(@domain_len + 4)]
           len = data.size
           @port = data[(len-2)..len].unpack('S>').first
+        when 4 # 4: ipv6, 16 bytes
+          ip = data[5..20]
+          @domain = ip
+          @port = data[21..22].unpack('S>').first
         else
           Yyrp.logger.error [:receive_data, @stage, 'not support this atype']
           return
