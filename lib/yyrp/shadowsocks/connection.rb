@@ -1,11 +1,10 @@
 require 'eventmachine'
 require 'uuid'
-require 'ipaddr'
 
-require_relative '../adapters/direct_adapter'
-require_relative 'crypto'
-
+require 'yyrp/adapters/direct_adapter'
 require 'yyrp/utils/relay'
+
+require 'yyrp/shadowsocks/crypto'
 require 'yyrp/shadowsocks/models'
 require 'yyrp/shadowsocks/server_pool'
 require 'yyrp/config'
@@ -42,25 +41,25 @@ class ShadowsocksConnection < BaseProxyServer
   end
 
   def stage_handler(data)
-    p data
     if @stage == 0
       @atype, @domain_len = data.unpack('C2')
       return if @domain_len.nil?
       header_len = 2 + @domain_len + 2
+      # https://github.com/shadowsocks/shadowsocks-libev/blob/master/src/server.c#L679
       case @atype
         when 1 # 1: ipv4, 4 bytes
           @domain = inet_ntoa(data[1..4])
-          @port = data[5, 2].unpack('s>')[0]
+          @port = data[5..6].unpack('S>').first
           Yyrp.logger.info "ipv4 ip is #{@domain}, port is #{@port}"
-          stage_handler(data[7..(data.size - 1)]) # FIXME
-        # TODO
-        # when 4 # 4: ipv6, 16 bytes
-        #   ip = data[5..21]
-        #   @domain = ip
-        #   @port = data[21..23].unpack('S>').first
+          # FIXME on android it may be DNS query over tcp
+          # stage_handler(data[7..(data.size - 1)])
         when 3 # domain
           @domain = data[2..(@domain_len + 1)]
           @port = data[(header_len-2)..header_len].unpack('S>').first
+        when 4 # 4: ipv6, 16 bytes
+          @domain = inet_ntoa(data[1..15])
+          @port = data[16..17].unpack('S>').first
+          Yyrp.logger.info "ipv6 ip is #{@domain}, port is #{@port}"
         else
           Yyrp.logger.info [:receive_data, @stage, "not support this atype: #{@atype}"]
           close_connection
