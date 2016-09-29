@@ -17,33 +17,33 @@
       "port": 3306,
       "username": "root",
       "password": "",
-      "database": "ssadmin_development"
+      "database": "db_name"
     },
     "mitm": {
       "host": "0.0.0.0",
       "port": 7779,
-      "ca_key": "/Users/kingyang/dev/ruby/gems/yyrp/certs/insecure_ca.key",
-      "ca_crt": "/Users/kingyang/dev/ruby/gems/yyrp/certs/insecure_ca.crt"
+      "ca_key": "./yyrp/certs/insecure_ca.key",
+      "ca_crt": "./yyrp/certs/insecure_ca.crt"
     },
     "mmdb": {
-      "path": "/Users/kingyang/dev/ruby/gems/yyrp/mmdb/GeoLite2-Country.mmdb"
+      "path": "./yyrp/mmdb/GeoLite2-Country.mmdb"
     }
   },
   "adapters": {
     "shadowsocks": [
       {
         "name": "HK",
-        "host": "server",
-        "port": 6666,
+        "host": "host",
+        "port": 66666,
         "method": "aes-256-cfb",
-        "password": "pass"
+        "password": "pass for ss"
       },
       {
         "name": "SS_LOCALHOST",
         "host": "127.0.0.1",
-        "port": 7780,
+        "port": 50000,
         "method": "aes-256-cfb",
-        "password": "pass"
+        "password": "0000000"
       }
     ],
     "http": [
@@ -88,7 +88,7 @@
         "monitor.uu.qq.com",
         "beacon.qq.com",
         "mob.com",
-		"mzstatic.com"
+		    "mzstatic.com"
       ],
       "action": "reject"
     },
@@ -132,7 +132,10 @@
         "thecampus",
         "zhimg",
         "v2ex",
-        "upyun"
+        "upyun",
+        "qqmail",
+        "qq",
+        "jianguoyun"
       ],
       "action": "direct"
     },
@@ -158,7 +161,8 @@
         "wikipedia",
         "linkedin",
         "cocos",
-        "placehold"
+        "placehold",
+        "spreecommerce"
       ],
       "action": "shadowsocks",
       "adapter_name": "HK"
@@ -186,17 +190,14 @@
         "herokuapp.com",
         "amazonaws.com",
         "filepicker.io",
-        "startbootstrap.com"
+        "startbootstrap.com",
+        "npmjs.org",
+        "ssl.gstatic.com",
+		    "williselt.tech",
+        "trello.com"
       ],
       "action": "shadowsocks",
       "adapter_name": "HK"
-    },
-    {
-      "type": "geoip",
-      "list": [
-        "CN"
-      ],
-      "action": "direct"
     },
     {
       "type": "ip_cidr",
@@ -336,6 +337,13 @@
       ],
       "action": "shadowsocks",
       "adapter_name": "HK"
+    },
+    {
+      "type": "geoip",
+      "list": [
+        "CN"
+      ],
+      "action": "direct"
     },
     {
       "type": "other",
