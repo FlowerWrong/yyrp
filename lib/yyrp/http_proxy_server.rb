@@ -47,7 +47,7 @@ class HttpProxyServer < BaseProxyServer
   def on_headers_complete(headers)
     # headers.delete('Proxy-Connection')
     @headers = headers
-    @domain, @port = headers['Host'].split(':')
+    @domain, @port = (headers['Host'] || headers['host']).split(':')
     if @parser.http_method == 'CONNECT'
       @domain, @port = @parser.request_url.split(':')
       @port = @port.nil? ? 443 : @port.to_i

@@ -56,7 +56,7 @@ rake
 * [x] reload config.json
 * [ ] yaml config support
 * [ ] surge config support
-* [ ] log
+* [x] log
 * [ ] packet filter: header and body(http/https support)
 * [ ] DNS server
 * [ ] speed adapter: simple implement with ping, only for proxy, not direct
@@ -78,9 +78,9 @@ rake
 
 ## Known bugs
 
-* [ ] [altamiracorp.com](https://www.altamiracorp.com/): DNS resolve bug. `Resolv.getaddress` in request and `EventMachine::connect` in relay.
+* [x] [altamiracorp.com](https://www.altamiracorp.com/): DNS resolve bug. `Resolv.getaddress` in request and `EventMachine::connect` in relay.
 * [x] safari not working
-* [ ] ip support: 123.56.230.53:29231
+* [x] ip support: 123.56.230.53:29231
 * [ ] 网易云音乐 search not work, download file with http?
 * [ ] mitm can not handle http, https only
 * [ ] DNS 解析失败会导致卡死

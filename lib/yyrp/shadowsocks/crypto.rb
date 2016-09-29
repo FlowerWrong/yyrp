@@ -91,8 +91,8 @@ module Shadowsocks
     end
 
     def EVP_BytesToKey key_len, iv_len
-      if bytes_to_key_results
-        return bytes_to_key_results
+      if @bytes_to_key_results
+        return @bytes_to_key_results
       end
 
       m = []
@@ -102,9 +102,9 @@ module Shadowsocks
 
       while m.join.length < len do
         data = if i > 0
-                 m[i - 1] + password
+                 m[i - 1] + @password
                else
-                 password
+                 @password
                end
         m.push Digest::MD5.digest(data)
         i += 1
@@ -113,7 +113,7 @@ module Shadowsocks
       key = ms[0, key_len]
       iv  = ms[key_len, key_len + iv_len]
       @bytes_to_key_results = [key, iv]
-      bytes_to_key_results
+      @bytes_to_key_results
     end
   end
 end

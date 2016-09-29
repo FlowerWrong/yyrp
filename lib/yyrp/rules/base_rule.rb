@@ -56,7 +56,12 @@ class BaseRule
       when 'ip_cidr'
         # FIXME https://www.altamiracorp.com/
         return false if req.ip_address.nil?
-        reqip = IPAddress(req.ip_address)
+        reqip = begin
+          IPAddress(req.ip_address)
+        rescue => e
+          Yyrp.logger.error e
+          nil
+        end # FIXME `parse': Unknown IP Address  (ArgumentError)
         return false if reqip.nil?
         reqip_str = reqip.to_string
 
