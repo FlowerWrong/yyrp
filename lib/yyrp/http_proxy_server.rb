@@ -47,11 +47,14 @@ class HttpProxyServer < BaseProxyServer
   def on_headers_complete(headers)
     # headers.delete('Proxy-Connection')
     @headers = headers
-    @domain, @port = (headers['Host'] || headers['host']).split(':')
+    if @headers.empty? || @headers.nil?
+      Yyrp.logger.error 'headers is empty'
+    end
     if @parser.http_method == 'CONNECT'
       @domain, @port = @parser.request_url.split(':')
       @port = @port.nil? ? 443 : @port.to_i
     else
+      @domain, @port = (headers['Host'] || headers['host']).split(':')
       @port = @port.nil? ? 80 : @port.to_i
     end
     @atype, @domain_len = 3, @domain.size
