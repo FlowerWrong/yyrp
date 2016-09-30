@@ -5,13 +5,7 @@ require 'yyrp/shadowsocks/models'
 require 'json'
 
 Yyrp::ShadowsocksServer.new
-
 $last_stat = nil
-
-# def get_user(port)
-#   users = User.where(enable: true, port: port)
-#   users != [] ? users.last : nil
-# end
 
 # ./ss-manager --manager-address 127.0.0.1:6001 -c ./multi.json -v
 # for https://github.com/shadowsocks/shadowsocks-libev
@@ -31,7 +25,7 @@ loop {
           udp_manager_socket.send "add: #{json_hash.to_json}", 0, '127.0.0.1', 6001
         else
           current_flow = stat["#{user.port}"]
-          last_flow = $last_stat.nil? ? 0 : $last_stat["#{user.port}"]
+          last_flow = $last_stat["#{user.port}"].nil? ? 0 : $last_stat["#{user.port}"]
           user.update(flow_up: (user.flow_up + (current_flow - last_flow)))
         end
       else
