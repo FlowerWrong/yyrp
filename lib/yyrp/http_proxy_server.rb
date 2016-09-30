@@ -1,7 +1,7 @@
 require 'eventmachine'
 require 'http/parser'
 require 'uuid'
-require 'awesome_print'
+require 'public_suffix'
 
 require_relative 'base_proxy_server'
 require_relative 'adapters/direct_adapter'
@@ -57,6 +57,12 @@ class HttpProxyServer < BaseProxyServer
       @domain, @port = (headers['Host'] || headers['host']).split(':')
       @port = @port.nil? ? 80 : @port.to_i
     end
+
+    unless PublicSuffix.valid?(@domain, ignore_private: true)
+      Yyrp.logger.error "Invide domain name #{@domain}"
+      return
+    end
+
     @atype, @domain_len = 3, @domain.size
 
     Yyrp.logger.debug [:on_headers_complete, :http_proxy_server, @domain, @port, @atype, @domain_len]

@@ -1,6 +1,7 @@
 require 'eventmachine'
 require 'http/parser'
 require 'uuid'
+require 'public_suffix'
 
 require_relative 'base_proxy_server'
 require_relative 'adapters/direct_adapter'
@@ -47,6 +48,12 @@ class Socks5ProxyServer < BaseProxyServer
           @port = data[9..10].unpack('S>').first
         when 3 # domain name
           @domain = data[5..(@domain_len + 4)]
+
+          unless PublicSuffix.valid?(@domain, ignore_private: true)
+            Yyrp.logger.error "Invide domain name #{@domain}"
+            return
+          end
+
           len = data.size
           @port = data[(len-2)..len].unpack('S>').first
         when 4 # 4: ipv6, 16 bytes

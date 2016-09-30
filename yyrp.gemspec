@@ -40,13 +40,14 @@ Gem::Specification.new do |spec|
   # spec.add_dependency 'packetfu'
   spec.add_dependency 'net-ping'
   spec.add_dependency 'logging'
+  spec.add_dependency 'public_suffix'
 
   spec.add_runtime_dependency 'faraday'
   spec.add_runtime_dependency 'webrick'
   spec.add_runtime_dependency 'certificate_authority'
   spec.add_runtime_dependency 'dot_hash'
 
-  spec.add_development_dependency "bundler", "~> 1.12"
-  spec.add_development_dependency "rake", "~> 10.0"
-  spec.add_development_dependency "minitest", "~> 5.0"
+  spec.add_development_dependency 'bundler'
+  spec.add_development_dependency 'rake'
+  spec.add_development_dependency 'minitest'
 end
