@@ -25,7 +25,12 @@ loop {
           udp_manager_socket.send "add: #{json_hash.to_json}", 0, '127.0.0.1', 6001
         else
           current_flow = stat["#{user.port}"]
-          last_flow = $last_stat["#{user.port}"].nil? ? 0 : $last_stat["#{user.port}"]
+          last_flow = if $last_stat && $last_stat["#{user.port}"]
+            $last_stat["#{user.port}"]
+          else
+            0
+          end
+          # $last_stat["#{user.port}"].nil? ? 0 : $last_stat["#{user.port}"]
           user.update(flow_up: (user.flow_up + (current_flow - last_flow)))
         end
       else
