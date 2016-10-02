@@ -4,6 +4,6 @@ class DomainSuffixRule < BaseDomainRule
   def initialize(type, action, domain_suffixs, adapter_name = nil)
     @adapter_name = adapter_name
     super(type, action)
-    @domain_suffixs = domain_suffixs
+    @list = domain_suffixs
   end
 end

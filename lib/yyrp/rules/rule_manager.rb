@@ -15,6 +15,7 @@ class RuleManager
 
   def adapter(request)
     @rules.each do |rule|
+      time_start = Time.now
       if rule.match(request)
         case rule.type
         when 'geoip'
@@ -23,6 +24,13 @@ class RuleManager
           Yyrp.logger.info "Rule match is #{rule.matched_rule}"
         end
         return [rule.adapter, rule.adapter_name]
+      else
+        time_end = Time.now
+        time = time_end - time_start
+        if time > 1
+          Yyrp.logger.error '----------------------------------------------------'
+          Yyrp.logger.error "Parse rule #{rule.description} : #{request.description} which not match spent #{time.to_s}s"
+        end
       end
     end
     [nil, nil]

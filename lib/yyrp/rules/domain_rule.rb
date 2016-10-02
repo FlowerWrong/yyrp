@@ -4,6 +4,6 @@ class DomainRule < BaseDomainRule
   def initialize(type, action, domains, adapter_name = nil)
     @adapter_name = adapter_name
     super(type, action)
-    @domains = domains
+    @list = domains
   end
 end

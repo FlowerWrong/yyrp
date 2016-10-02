@@ -51,7 +51,10 @@ module Relay
       Yyrp.logger.debug [:to_relay, adapter, adapter_name]
       time_end = Time.now
       time = time_end - time_start
-      Yyrp.logger.debug "Parse rule spent #{time.to_s}s"
+      if time > 1
+        Yyrp.logger.error '----------------------------------------------------'
+        Yyrp.logger.error "Parse rule spent #{time.to_s}s"
+      end
 
       if adapter.nil?
         return false

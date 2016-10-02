@@ -1,16 +1,21 @@
 require 'ipaddress'
+require 'ipaddr'
 
 require_relative '../adapters/direct_adapter'
 require_relative '../adapters/http_adapter'
 require_relative '../adapters/shadowsocks_adapter'
 
 class BaseRule
-  attr_accessor :action, :type, :domains, :domain_keywords, :domain_suffixs, :geoips, :ip_cidrs, :adapter_name, :matched_rule
+  attr_accessor :action, :type, :list, :adapter_name, :matched_rule
   def initialize(type, action)
     raise("Type #{type} not support for this rule") unless types.include?(type)
     raise("Action #{action} not support for this rule") unless actions.include?(action)
     @type = type
     @action = action
+  end
+
+  def description
+    "rule: type-#{@type} action-#{@action} list-#{@list[0]}"
   end
 
   def types
@@ -24,59 +29,60 @@ class BaseRule
   def match(req)
     case @type
       when 'domain'
-        @domains.each do |d|
+        @list.each do |d|
           if d == req.only_host
             @matched_rule = ['domain', d, req.description]
             return true
           end
-        end unless @domains.nil?
+        end unless @list.nil?
       when 'domain_keyword'
-        @domain_keywords.each do |key|
+        @list.each do |key|
           reg = /.*#{key}.*/
           if reg =~ req.only_host
             @matched_rule = ['domain_keyword', reg, req.description]
             return true
           end
-        end unless @domain_keywords.nil?
+        end unless @list.nil?
       when 'domain_suffix'
-        @domain_suffixs.each do |key|
+        @list.each do |key|
           reg = /.*#{key}/
           if reg =~ req.only_host
             @matched_rule = ['domain_suffix', reg, req.description]
             return true
           end
-        end unless @domain_suffixs.nil?
+        end unless @list.nil?
       when 'geoip'
-        @geoips.each do |country_code|
+        @list.each do |country_code|
           if !req.country_code.nil? && req.country_code.upcase == country_code.upcase
             @matched_rule = ['geoip', country_code, req.description]
             return true
           end
-        end unless @geoips.nil?
+        end unless @list.nil?
       when 'ip_cidr'
-        # FIXME https://www.altamiracorp.com/
+        # FIXME https://www.altamiracorp.com/ parse rule spent 10s
         return false if req.ip_address.nil?
+
         reqip = begin
           IPAddress(req.ip_address)
         rescue => e
           Yyrp.logger.error e
           nil
-        end # FIXME `parse': Unknown IP Address  (ArgumentError)
+        end
         return false if reqip.nil?
-        reqip_str = reqip.to_string
 
-        @ip_cidrs.each do |ic|
+        req_net = IPAddr.new(req.ip_address)
+        @list.each do |ic|
           ip = IPAddress(ic)
           # FIXME need a long time
           next if ip.prefix != reqip.prefix
           next if ip.octets[0] != reqip.octets[0]
-          ip.each_host do |ip_addr|
-            if ip_addr.to_string == reqip_str
-              @matched_rule = ['ip_cidr', ic, req.description]
-              return true
-            end
-          end unless ip.nil?
-        end if !@ip_cidrs.nil? && !reqip.nil?
+
+          ip = IPAddr.new(ic)
+          if ip.include?(req_net)
+            @matched_rule = ['ip_cidr', ic, req.description]
+            return true
+          end
+        end if !@list.nil? && !reqip.nil?
       when 'other'
         @matched_rule = ['other', nil, req.description]
         return true
