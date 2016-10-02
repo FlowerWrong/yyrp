@@ -50,7 +50,6 @@ module Ritm
       end
 
       def vhost_settings(hostname)
-        p "vhost-settings called to #{hostname}"
         cert = gen_signed_cert(hostname)
         {
           ServerName: hostname,

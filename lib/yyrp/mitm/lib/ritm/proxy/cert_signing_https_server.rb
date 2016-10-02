@@ -30,11 +30,9 @@ module Ritm
         ctx.servername_cb = proc do |sock, servername|
           mutex.synchronize do
             unless contexts.include? servername
-              p "prepare_sni_callback servername is #{servername}"
               cert = Ritm::Certificate.create(servername)
               ca.sign(cert)
               contexts[servername] = context_with_cert(sock.context, cert)
-              p "contexts are #{contexts.size}"
             end
           end
           contexts[servername]

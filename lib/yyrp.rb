@@ -29,10 +29,11 @@ module Yyrp
     FilterManager.instance.set_filters
   end
 
+  # curl -i -k https://baidu.com
   def start_mitm
     set_config
     Ritm.on_request do |req|
-      Yyrp.logger.info '=' * 20
+      Yyrp.logger.info '=' * 50
       Yyrp.logger.info "on_request uri is #{req.request_uri}"
     end
     Ritm.on_response do |_req, res|
@@ -40,7 +41,7 @@ module Yyrp
       Yyrp.logger.info "on_response headers is #{res.header}"
     end
 
-    Yyrp.logger.info Yyrp.config.servers['mitm']['ca_key'], Yyrp.config.servers['mitm']['ca_crt']
+    Yyrp.logger.info "ca_key is #{Yyrp.config.servers['mitm']['ca_key']} ca_crt is #{Yyrp.config.servers['mitm']['ca_crt']}"
     proxy = Ritm::Proxy::Launcher.new(
       ca_crt_path: Yyrp.config.servers['mitm']['ca_crt'],
       ca_key_path: Yyrp.config.servers['mitm']['ca_key']
