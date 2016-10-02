@@ -4,7 +4,7 @@ require 'active_support/configurable'
 module Yyrp
   class Config
     include ActiveSupport::Configurable
-    config_accessor :servers, :adapters, :rules, :logger
+    config_accessor :servers, :adapters, :rules, :filters, :logger
   end
 
   def self.configure(&block)

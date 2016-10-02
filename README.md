@@ -85,6 +85,7 @@ rake
 * [ ] mitm can not handle http, https only
 * [ ] DNS 解析失败会导致卡死
 * [ ] ip cidr cal a long time
+* [ ] use proxy when <Resolv::ResolvError> no address for api.smoot.apple.com.cn
 
 ## Proxy
 

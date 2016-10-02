@@ -3,6 +3,10 @@ require 'http/parser'
 require 'uuid'
 require 'public_suffix'
 
+require 'yyrp/filters/filter_manager'
+
+require 'yyrp/msgs/response'
+
 require_relative 'base_proxy_server'
 require_relative 'adapters/direct_adapter'
 
@@ -11,7 +15,7 @@ require_relative 'utils/relay'
 # initialize -> post_init -> server set con
 class HttpProxyServer < BaseProxyServer
   include Relay
-  attr_accessor :server
+  attr_accessor :server, :request, :response
 
   def post_init
     @buff = ''
@@ -86,12 +90,15 @@ class HttpProxyServer < BaseProxyServer
   end
 
   def on_message_complete
-    # TODO add request body
-    if @domain =~ /.*163.*/ || @domain =~ /.*126.*/ || @domain =~ /.*music.*/
-      Yyrp.logger.debug '-' * 30
-      Yyrp.logger.debug @parser.request_url
-      Yyrp.logger.debug @headers
-      Yyrp.logger.debug @body
+    if @request && @body
+      @body.size < 200 ? @request.body = @body : @request.body = @body[0..200]
+    end
+    if @request && FilterManager.instance.match(@request)
+      # unless @parser.request_url.start_with? 'http://talkapp.ntpc.gov.tw/newntpc_webservice/Service1.svc/getAreaRoad'
+      p '-' * 50
+      Yyrp.logger.debug @request.inspect
+      p '-' * 20
+      # end
     end
   end
 
@@ -99,6 +106,13 @@ class HttpProxyServer < BaseProxyServer
   # relay data from backend server to client
   #
   def relay_from_backend(data)
+    @response = Response.new if @response.nil?
+    @response.all_data << data
+    if @request && FilterManager.instance.match(@request)
+      p '*' * 50
+      Yyrp.logger.debug @response.all_data.join('')
+      p '*' * 20
+    end
     send_data data unless data.nil?
   end
 end

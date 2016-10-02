@@ -14,7 +14,7 @@ class RuleManager
   attr_accessor :rules
 
   def adapter(request)
-    rules.each do |rule|
+    @rules.each do |rule|
       if rule.match(request)
         case rule.type
         when 'geoip'
@@ -28,8 +28,9 @@ class RuleManager
     [nil, nil]
   end
 
-  def rules
+  def set_rules
     @rules = []
+    Yyrp.logger.info 'Rule manager rules have beed seted'
     Yyrp.config.rules.each do |r_h|
       rule = case r_h['type']
                when 'domain'
@@ -50,6 +51,6 @@ class RuleManager
              end
       @rules << rule unless rule.nil?
     end
-    @rules
+    # @rules
   end
 end

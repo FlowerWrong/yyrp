@@ -2,6 +2,8 @@ require 'yyrp/version'
 require 'yyrp/http_proxy_server'
 require 'yyrp/socks5_proxy_server'
 require 'yyrp/shadowsocks/server'
+require 'yyrp/rules/rule_manager'
+require 'yyrp/filters/filter_manager'
 require 'yyrp/config'
 require 'yyrp/server'
 require 'logging'
@@ -19,9 +21,12 @@ module Yyrp
       config.servers = config_hash['servers']
       config.adapters = config_hash['adapters']
       config.rules = config_hash['rules']
+      config.filters = config_hash['filters']
       config.logger = Logging.logger(STDOUT)
       config.logger.level = :debug
     end
+    RuleManager.instance.set_rules
+    FilterManager.instance.set_filters
   end
 
   def start_mitm

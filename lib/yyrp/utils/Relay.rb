@@ -38,23 +38,20 @@ module Relay
 
   def to_relay
     if @relay.nil?
-      req = Request.new(@domain, @port)
+      @request = Request.new(@domain, @port)
       if @parser
-        req.method = @parser.http_method
-        req.http_version = @parser.http_version
-        req.request_url = @parser.request_url
-        req.headers = @parser.headers
-        req.protocol = @https ? 'https' : 'http'
+        @request.method = @parser.http_method
+        @request.http_version = @parser.http_version
+        @request.request_url = @parser.request_url
+        @request.headers = @parser.headers
+        @request.protocol = @https ? 'https' : 'http'
       end
-      Yyrp.logger.debug '====' * 20
       time_start = Time.now
-      # FIXME timeout
-      adapter, adapter_name = RuleManager.instance.adapter(req)
+      adapter, adapter_name = RuleManager.instance.adapter(@request)
       Yyrp.logger.debug [:to_relay, adapter, adapter_name]
       time_end = Time.now
       time = time_end - time_start
       Yyrp.logger.debug "Parse rule spent #{time.to_s}s"
-      Yyrp.logger.debug '====' * 20
 
       if adapter.nil?
         return false
