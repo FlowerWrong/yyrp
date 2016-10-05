@@ -33,7 +33,7 @@ class HttpProxyServer < BaseProxyServer
       begin
         @parser << data
       rescue => e # HTTP::Parser::Error
-        Yyrp.logger.error e
+        Yyrp.logger.error "#{__FILE__} #{__LINE__} #{e}"
       end
     end
   end

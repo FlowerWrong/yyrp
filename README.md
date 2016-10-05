@@ -59,7 +59,7 @@ rake
 * [x] log
 * [ ] packet filter: header and body(http/https support)
 * [ ] DNS server
-* [ ] DNS cache
+* [x] DNS cache
 * [ ] speed adapter: simple implement with ping, only for proxy, not direct
 * [ ] http/https adapter
 * [ ] command line tools

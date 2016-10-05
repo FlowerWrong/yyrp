@@ -65,7 +65,7 @@ class BaseRule
         reqip = begin
           IPAddress(req.ip_address)
         rescue => e
-          Yyrp.logger.error e
+          Yyrp.logger.error "#{__FILE__} #{__LINE__} #{e}"
           nil
         end
         return false if reqip.nil?
