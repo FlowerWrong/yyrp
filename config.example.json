@@ -28,9 +28,13 @@
     "mmdb": {
       "path": "yyrp/mmdb/GeoLite2-Country.mmdb"
     },
-    "dns": [
-      "114.114.114.114"
-    ]
+    "dns": {
+      "nameservers": [
+        "114.114.114.114"
+      ],
+      "timeout": 1,
+      "cache_timeout": 7200
+    }
   },
   "adapters": {
     "shadowsocks": [{
