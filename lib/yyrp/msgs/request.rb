@@ -14,7 +14,7 @@ class Request
   end
 
   def description
-    "host: #{host}; port: #{port}; ip_address: #{ip_address}, method: #{method}; http_version: #{http_version}"
+    "host: #{host}; port: #{port}; method: #{method}; http_version: #{http_version}"
   end
 
   def only_host
@@ -29,9 +29,10 @@ class Request
       @ip_address = @host
     else
       @only_host = @host
-      # FIXME no address for api.coderwall.com (Resolv::ResolvError)
       begin
-        @ip_address = Resolv.getaddress(@only_host)
+        dns = Resolv::DNS.new(nameserver: Yyrp.config.servers['dns'])
+        dns.timeouts = 1
+        @ip_address = dns.getaddress(@only_host)
       rescue => e
         Yyrp.logger.error e
         @ip_address = nil

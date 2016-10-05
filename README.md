@@ -59,6 +59,7 @@ rake
 * [x] log
 * [ ] packet filter: header and body(http/https support)
 * [ ] DNS server
+* [ ] DNS cache
 * [ ] speed adapter: simple implement with ping, only for proxy, not direct
 * [ ] http/https adapter
 * [ ] command line tools
@@ -66,7 +67,7 @@ rake
 * [ ] tun2socks support with iptables
 * [ ] kcp support
 * [ ] v2ray support
-* [ ] IPV6 support
+* [x] IPV6 support
 * [ ] socks5 proxy server with auth support
 * [ ] more shadowsocks method support
 
@@ -83,9 +84,9 @@ rake
 * [x] ip support: 123.56.230.53:29231
 * [ ] 网易云音乐 search not work, download file with http?
 * [ ] mitm can not handle http, https only
-* [ ] DNS 解析失败会导致卡死
+* [x] DNS 解析失败会导致卡死
 * [x] ip cidr cal a long time
-* [ ] use proxy when <Resolv::ResolvError> no address for api.smoot.apple.com.cn
+* [x] use proxy when <Resolv::ResolvError> no address for api.smoot.apple.com.cn
 
 ## Proxy
 

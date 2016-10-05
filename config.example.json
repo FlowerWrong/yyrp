@@ -17,7 +17,7 @@
       "port": 3306,
       "username": "root",
       "password": "",
-      "database": "dbname"
+      "database": "ssadmin_development"
     },
     "mitm": {
       "host": "0.0.0.0",
@@ -27,13 +27,16 @@
     },
     "mmdb": {
       "path": "yyrp/mmdb/GeoLite2-Country.mmdb"
-    }
+    },
+    "dns": [
+      "114.114.114.114"
+    ]
   },
   "adapters": {
     "shadowsocks": [{
       "name": "HK",
-      "host": "host",
-      "port": 8080,
+      "host": "domain",
+      "port": 50001,
       "method": "aes-256-cfb",
       "password": "sspass"
     }, {
@@ -67,10 +70,10 @@
   "rules": [{
     "type": "domain_suffix",
     "list": [
-      "baidu.com"
+      "mitm.com"
     ],
     "action": "mitm"
-  },{
+  }, {
     "type": "domain",
     "list": [
       "liveneeq.com"
@@ -119,7 +122,8 @@
       "netnease.com",
       "163.com",
       "126.net",
-      "bdstatic.com"
+      "bdstatic.com",
+      "ruby-lang.org"
     ],
     "action": "direct"
   }, {
@@ -140,6 +144,7 @@
       "upyun",
       "qqmail",
       "qq",
+      "qiniu",
       "jianguoyun",
       "trello"
     ],
@@ -200,9 +205,7 @@
       "williselt.tech",
       "dacheng.us",
       "pypi.python.org",
-      "cloudfront.net",
-      "charlesproxy.com",
-      "ntpc.gov.tw"
+      "charlesproxy.com"
     ],
     "action": "shadowsocks",
     "adapter_name": "HK"
@@ -212,7 +215,8 @@
       "192.168.0.0/16",
       "10.0.0.0/8",
       "172.16.0.0/12",
-      "127.0.0.0/8"
+      "127.0.0.0/8",
+      "0.0.0.0/32"
     ],
     "action": "direct"
   }, {
@@ -305,7 +309,6 @@
       "74.125.155.102/32",
       "209.85.229.138/32",
       "210.242.125.20/32",
-      "0.0.0.0/32",
       "2.1.1.2/32",
       "4.193.80.0/32",
       "8.105.84.0/32",

@@ -46,14 +46,20 @@ module Relay
         @request.headers = @parser.headers
         @request.protocol = @https ? 'https' : 'http'
       end
-      time_start = Time.now
-      adapter, adapter_name = RuleManager.instance.adapter(@request)
-      Yyrp.logger.debug [:to_relay, adapter, adapter_name]
-      time_end = Time.now
-      time = time_end - time_start
-      if time > 1
-        Yyrp.logger.error '----------------------------------------------------'
-        Yyrp.logger.error "Parse rule spent #{time.to_s}s"
+
+      # DNS query
+      if @request.ip_address
+        time_start = Time.now
+        adapter, adapter_name = RuleManager.instance.adapter(@request)
+        Yyrp.logger.debug [:to_relay, adapter, adapter_name]
+        time_end = Time.now
+        time = time_end - time_start
+        if time > 1
+          Yyrp.logger.error '----------------------------------------------------'
+          Yyrp.logger.error "Parse rule spent #{time.to_s}s"
+        end
+      else
+        adapter, adapter_name = ShadowsocksAdapter, Yyrp.config.adapters['shadowsocks'][0]['name']
       end
 
       if adapter.nil?
