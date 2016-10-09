@@ -54,7 +54,7 @@ class HttpProxyServer < BaseProxyServer
     # headers['Connection'] = 'keep-alive'
     @headers = headers
     # TODO rewrite http headers
-    if @headers.empty? || @headers.nil?
+    if @headers.nil? || @headers.empty?
       Yyrp.logger.error 'headers is empty'
     end
     if @parser.http_method == 'CONNECT'

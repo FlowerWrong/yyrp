@@ -84,7 +84,7 @@ rake
 * [x] ip support: 123.56.230.53:29231
 * [ ] 网易云音乐 search not work, download file with http?
 * [ ] mitm can not handle http, https only
-* [x] DNS 解析失败会导致卡死
+* [x] DNS ResolvError may break proxy
 * [x] ip cidr cal a long time
 * [x] use proxy when <Resolv::ResolvError> no address for api.smoot.apple.com.cn
 

@@ -90,7 +90,6 @@
       "cpro.baidu.com",
       "stat.m.jd.com",
       "wangmeng.baidu.com",
-      "www.gstatic.com",
       "pingma.qq.com",
       "ads.mopub.com",
       "init.icloud-analysis.com",
@@ -209,7 +208,9 @@
       "williselt.tech",
       "dacheng.us",
       "pypi.python.org",
-      "charlesproxy.com"
+      "charlesproxy.com",
+      "rails-assets.org",
+      "gstatic.com"
     ],
     "action": "shadowsocks",
     "adapter_name": "HK"

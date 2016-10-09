@@ -42,6 +42,10 @@ Gem::Specification.new do |spec|
   spec.add_dependency 'logging'
   spec.add_dependency 'public_suffix'
 
+  # colorful terminal spinner
+  spec.add_dependency 'paint'
+  spec.add_dependency 'whirly'
+
   spec.add_runtime_dependency 'faraday'
   spec.add_runtime_dependency 'webrick'
   spec.add_runtime_dependency 'certificate_authority'
