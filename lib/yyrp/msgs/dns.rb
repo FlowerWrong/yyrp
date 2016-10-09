@@ -2,7 +2,6 @@ require 'singleton'
 require 'resolv'
 require 'awesome_print'
 
-# TODO add timer to clear cache
 class DNS
   include Singleton
   attr_accessor :querys, :exception_domains, :dns_client
@@ -14,6 +13,8 @@ class DNS
     @dns_cache_timeout = Yyrp.config.servers['dns']['cache_timeout']
 
     timer = EventMachine::PeriodicTimer.new(@dns_cache_timeout) do
+      ap @querys
+      ap @exception_domains
       @querys = []
       @exception_domains = []
       Yyrp.logger.info 'querys and exception_domains cache have been cleanup'
@@ -24,8 +25,6 @@ class DNS
   end
 
   def resolv(domain)
-    ap @querys
-    ap @exception_domains
     # DNS cache
     return nil if @exception_domains.include?(domain)
     flag, domain_h = cached?(domain)
