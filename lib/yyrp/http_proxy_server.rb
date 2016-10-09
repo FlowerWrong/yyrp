@@ -52,7 +52,7 @@ class HttpProxyServer < BaseProxyServer
     # @see https://imququ.com/post/the-proxy-connection-header-in-http-request.html
     # headers.delete('Proxy-Connection')
     # headers['Connection'] = 'keep-alive'
-    # @headers = headers
+    @headers = headers
     # TODO rewrite http headers
     if @headers.empty? || @headers.nil?
       Yyrp.logger.error 'headers is empty'
