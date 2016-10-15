@@ -20,15 +20,9 @@ ruby proxy.rb # only http/https socks proxy
 ruby mitm.rb # mitm server for https packet capture
 ruby ss.rb # shadowsocks server
 ```
+## Settings
 
-## npm or yarn config(recommend to use terminal setting blow)
-
-```bash
-npm config set proxy http://127.0.0.1:7777
-npm config set https-proxy http://127.0.0.1:7777
-```
-
-## Terminal setting in .zshrc or .bashrc ...
+#### Terminal setting in .zshrc or .bashrc ...
 
 ```bash
 function setp(){
@@ -42,9 +36,9 @@ function unsetp(){
 }
 ```
 
-## OSX NetWork Setting(It is not work for terminal)
+#### OSX NetWork Setting(It is not work for terminal)
 
-![OSX NetWork Setting](https://github.com/FlowerWrong/yyrp/tree/master/screenshots/osx_network_setting.png)
+![OSX NetWork Setting](https://raw.githubusercontent.com/FlowerWrong/yyrp/master/screenshots/osx_network_setting.png)
 
 ```bash
 # ignore proxy
