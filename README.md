@@ -21,6 +21,36 @@ ruby mitm.rb # mitm server for https packet capture
 ruby ss.rb # shadowsocks server
 ```
 
+## npm or yarn config(recommend to use terminal setting blow)
+
+```bash
+npm config set proxy http://127.0.0.1:7777
+npm config set https-proxy http://127.0.0.1:7777
+```
+
+## Terminal setting in .zshrc or .bashrc ...
+
+```bash
+function setp(){
+  export http_proxy='http://127.0.0.1:7777'
+  export https_proxy='http://127.0.0.1:7777'
+}
+
+function unsetp(){
+  unset http_proxy
+  unset https_proxy
+}
+```
+
+## OSX NetWork Setting(It is not work for terminal)
+
+![OSX NetWork Setting](https://github.com/FlowerWrong/yyrp/tree/master/screenshots/osx_network_setting.png)
+
+```bash
+# ignore proxy
+127.0.0.1、192.168.0.0/16、10.0.0.0/8、172.16.0.0/12、100.64.0.0/10、localhost、*.local
+```
+
 ## Idea form
 
 * [NEKit](https://github.com/zhuhaow/NEKit)
