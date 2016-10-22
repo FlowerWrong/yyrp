@@ -17,6 +17,14 @@ loop {
   Yyrp.logger.info "msg: #{msg}, addr:#{addr}"
   if msg.start_with?('stat: ')
     stat = JSON.parse(msg[6..-1])
+    # 排除已经删除的用户
+    stat.to_a.each do |u|
+      unless User.where(port: u[0]).exists?
+        Yyrp.logger.info "port #{u[0]} to be stop"
+        json_hash = {"server_port": u[0]}
+        udp_manager_socket.send "remove: #{json_hash.to_json}", 0, '127.0.0.1', 6001
+      end
+    end
     User.where(enable: true).each do |user|
       if (user.expire_time > Time.now) && (user.flow_up + user.flow_down < user.total_flow)
         if stat["#{user.port}"].nil?
