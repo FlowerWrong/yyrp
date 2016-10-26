@@ -111,6 +111,7 @@ rake
 * [x] DNS ResolvError may break proxy
 * [x] ip cidr cal a long time
 * [x] use proxy when <Resolv::ResolvError> no address for api.smoot.apple.com.cn
+* [ ] weixin upload image
 
 ## Proxy
 
