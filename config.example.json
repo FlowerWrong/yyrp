@@ -17,7 +17,7 @@
       "port": 3306,
       "username": "root",
       "password": "",
-      "database": "ssadmin_development"
+      "database": "db"
     },
     "mitm": {
       "host": "0.0.0.0",
@@ -40,9 +40,9 @@
     "shadowsocks": [{
       "name": "HK",
       "host": "domain",
-      "port": 50001,
+      "port": 50006,
       "method": "aes-256-cfb",
-      "password": "sspass"
+      "password": "pass"
     }, {
       "name": "SS_LOCALHOST",
       "host": "127.0.0.1",
@@ -61,14 +61,12 @@
   },
   "filters": [{
     "type": "domain_keyword",
-    "list": [
-      "163",
-      "126"
-    ]
+    "list": []
   }, {
     "type": "domain_suffix",
     "list": [
-      "gov.tw"
+      "gov.tw",
+      "dtgco.cn"
     ]
   }],
   "rules": [{
@@ -79,9 +77,7 @@
     "action": "mitm"
   }, {
     "type": "domain",
-    "list": [
-      "liveneeq.com"
-    ],
+    "list": [],
     "action": "shadowsocks",
     "adapter_name": "SS_LOCALHOST"
   }, {
@@ -91,9 +87,7 @@
       "stat.m.jd.com",
       "wangmeng.baidu.com",
       "pingma.qq.com",
-      "ads.mopub.com",
-      "init.icloud-analysis.com",
-      "fonts.googleapis.com"
+      "ads.mopub.com"
     ],
     "action": "reject"
   }, {
@@ -102,16 +96,14 @@
       "mmstat.com",
       "monitor.uu.qq.com",
       "beacon.qq.com",
-      "mob.com",
-      "mzstatic.com"
+      "mob.com"
     ],
     "action": "reject"
   }, {
     "type": "domain_keyword",
     "list": [
       "umeng.co",
-      "flurry.co",
-      "analysis"
+      "flurry.co"
     ],
     "action": "reject"
   }, {
@@ -126,7 +118,8 @@
       "163.com",
       "126.net",
       "bdstatic.com",
-      "ruby-lang.org"
+      "ruby-lang.org",
+      "beiming.io"
     ],
     "action": "direct"
   }, {
@@ -209,8 +202,17 @@
       "dacheng.us",
       "pypi.python.org",
       "charlesproxy.com",
+      "www.gstatic.com",
+      "fonts.googleapis.com",
+      "binary.com",
+      "yarnpkg.com",
+      "cloudflare.com",
       "rails-assets.org",
-      "gstatic.com"
+      "jetbrains.com",
+      "wireshark.org",
+      "t.co",
+      "linode.com",
+      "amazonaws.com"
     ],
     "action": "shadowsocks",
     "adapter_name": "HK"

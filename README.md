@@ -64,7 +64,7 @@ rake
 * There are 4 adapters, `direct`, `mitm`, `http(https)` and `shadowsocks`.
 * There are 6 actions, `http(https):http_adapter`, `shadowsocks:shadowsocks_adapter`, `direct:direct_adapter`, `speed:select fastest adapters`, `mitm:mitm_adapter`, and `reject:just close this socket`.
 * There are 6 rule types, `geoip`, `domain`, `domain_keyword`, `domain_suffix`, `ip_cidr` and `other`, note: rules are in order.
-
+* Filters is for packet capture, just work for http, if it is https, please use `mitm` action
 
 ## Todo
 
