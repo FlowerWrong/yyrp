@@ -212,7 +212,9 @@
       "wireshark.org",
       "t.co",
       "linode.com",
-      "amazonaws.com"
+      "amazonaws.com",
+      "cloudinary.com",
+      "sketchapp.com"
     ],
     "action": "shadowsocks",
     "adapter_name": "HK"
