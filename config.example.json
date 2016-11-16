@@ -142,7 +142,8 @@
       "qq",
       "qiniu",
       "jianguoyun",
-      "trello"
+      "trello",
+      "youdao"
     ],
     "action": "direct"
   }, {
@@ -214,7 +215,13 @@
       "linode.com",
       "amazonaws.com",
       "cloudinary.com",
-      "sketchapp.com"
+      "sketchapp.com",
+      "libsdl.org",
+      "homebrew.bintray.com",
+      "jsfiddle.net",
+      "equinox.io",
+      "lookae.com",
+      "files.pythonhosted.org"
     ],
     "action": "shadowsocks",
     "adapter_name": "HK"
