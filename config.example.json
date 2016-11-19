@@ -221,7 +221,8 @@
       "jsfiddle.net",
       "equinox.io",
       "lookae.com",
-      "files.pythonhosted.org"
+      "files.pythonhosted.org",
+      "cloudfront.net"
     ],
     "action": "shadowsocks",
     "adapter_name": "HK"
