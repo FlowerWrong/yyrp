@@ -26,10 +26,9 @@ class HttpProxyServer < BaseProxyServer
 
   def receive_data data
     add_con
-    @buff << data
-    if @https && @relay
-      @relay.send_data(data)
-    else
+    @buff += data
+    @relay.send_data(data) if @https || @relay
+    unless @https
       begin
         @parser << data
       rescue => e # HTTP::Parser::Error
@@ -43,6 +42,7 @@ class HttpProxyServer < BaseProxyServer
     @https = nil
   end
 
+  # 开始接收客户端数据
   def on_message_begin
     @headers = nil
     @body = ''
@@ -54,9 +54,9 @@ class HttpProxyServer < BaseProxyServer
     # headers['Connection'] = 'keep-alive'
     @headers = headers
     # TODO rewrite http headers
-    if @headers.nil? || @headers.empty?
-      Yyrp.logger.error 'headers is empty'
-    end
+    Yyrp.logger.error('headers is empty') if @headers.nil? || @headers.empty?
+
+    # get remote domain and port
     if @parser.http_method == 'CONNECT'
       @domain, @port = @parser.request_url.split(':')
       @port = @port.nil? ? 443 : @port.to_i
@@ -65,9 +65,16 @@ class HttpProxyServer < BaseProxyServer
       @port = @port.nil? ? 80 : @port.to_i
     end
 
+    # 验证域名是否有效
     unless PublicSuffix.valid?(@domain, ignore_private: true)
       Yyrp.logger.error "Invide domain name #{@domain}"
       return
+    end
+
+    # 是否文件上传
+    if @headers['Content-Type'] && @headers['Content-Type'] =~ /multipart\/form-data;\s+boundary=(.*+)/
+      boundary = $1
+      Yyrp.logger.info "It is fileupload, boundary is #{boundary}"
     end
 
     @atype, @domain_len = 3, @domain.size
@@ -79,6 +86,7 @@ class HttpProxyServer < BaseProxyServer
         @https = true
         send_data("HTTP/1.1 200 Connection Established\r\n\r\n")
       else
+        # TODO 重组headers???
         @relay.send_data(@buff) if @buff != '' && @buff != nil
         @buff = ''
       end
@@ -97,11 +105,10 @@ class HttpProxyServer < BaseProxyServer
       @body.size < 200 ? @request.body = @body : @request.body = @body[0..200]
     end
     if @request && FilterManager.instance.match(@request)
-      # unless @parser.request_url.start_with? 'http://talkapp.ntpc.gov.tw/newntpc_webservice/Service1.svc/getAreaRoad'
       p '-' * 50
-      Yyrp.logger.debug @request.inspect
+      Yyrp.logger.debug "request body size is #{@body.size}"
+      Yyrp.logger.debug "request is #{@request.inspect}"
       p '-' * 20
-      # end
     end
   end
 
@@ -113,7 +120,7 @@ class HttpProxyServer < BaseProxyServer
     @response.all_data << data
     if @request && FilterManager.instance.match(@request)
       p '*' * 50
-      Yyrp.logger.debug @response.all_data.join('')
+      Yyrp.logger.debug "response is #{@response.all_data.join('')}"
       p '*' * 20
     end
     send_data data unless data.nil?

@@ -55,7 +55,7 @@ module Relay
         time_end = Time.now
         time = time_end - time_start
         if time > 1
-          Yyrp.logger.error '----------------------------------------------------'
+          Yyrp.logger.error '---------------------------------------------------'
           Yyrp.logger.error "Parse rule spent #{time.to_s}s"
         end
       else
@@ -81,7 +81,7 @@ module Relay
           begin
             @relay = EventMachine::connect ss_host, ss_port, ShadowsocksAdapter, self, crypto, @addr_to_send
           rescue => e
-            Yyrp.logger.error e
+            Yyrp.logger.error "#{__FILE__} #{__LINE__} #{e}"
             return false
           end
         elsif adapter == MitmAdapter
@@ -91,16 +91,14 @@ module Relay
           begin
             @relay = EventMachine::connect mitm_host, mitm_port, MitmAdapter, self
           rescue => e
-            Yyrp.logger.error e
+            Yyrp.logger.error "#{__FILE__} #{__LINE__} #{e}"
             return false
           end
         else
-          # FIXME unable to resolve server address: Undefined error: 0 (EventMachine::ConnectionError)
-          # https://www.altamiracorp.com/
           begin
             @relay = EventMachine::connect @domain, @port, adapter, self
           rescue => e
-            Yyrp.logger.error e
+            Yyrp.logger.error "#{__FILE__} #{__LINE__} #{e}"
             return false
           end
         end

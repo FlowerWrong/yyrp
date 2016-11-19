@@ -94,6 +94,8 @@ rake
 * [x] IPV6 support
 * [ ] socks5 proxy server with auth support
 * [ ] more shadowsocks method support
+* [x] http multipart/form-data support
+* [ ] `x-forwarded-host`
 
 ## Shadowsocks server TODO
 
@@ -111,7 +113,7 @@ rake
 * [x] DNS ResolvError may break proxy
 * [x] ip cidr cal a long time
 * [x] use proxy when <Resolv::ResolvError> no address for api.smoot.apple.com.cn
-* [ ] weixin upload image
+* [x] weixin upload image http proxy only
 
 ## Proxy
 
