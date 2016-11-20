@@ -27,7 +27,7 @@ class Socks5ProxyServer < BaseProxyServer
     add_con
 
     @client_port, @client_ip = Socket.unpack_sockaddr_in(get_peername)
-    Yyrp.logger.info "Received data from #{@client_ip}:#{@client_port}"
+    # Yyrp.logger.info "Received data #{data.size} from #{@client_ip}:#{@client_port}"
 
     # https://zh.wikipedia.org/wiki/SOCKS#SOCKS5
     # http://apidock.com/ruby/String/unpack

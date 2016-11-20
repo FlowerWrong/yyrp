@@ -28,7 +28,7 @@ class HttpProxyServer < BaseProxyServer
     add_con
 
     @client_port, @client_ip = Socket.unpack_sockaddr_in(get_peername)
-    Yyrp.logger.info "Received data from #{@client_ip}:#{@client_port}"
+    # Yyrp.logger.info "Received data #{data.size} from #{@client_ip}:#{@client_port}"
 
     @buff += data
     @relay.send_data(data) if @https || @relay
@@ -87,7 +87,7 @@ class HttpProxyServer < BaseProxyServer
 
     if to_relay
       if @parser.http_method == 'CONNECT'
-        @https = true
+        @https = true # FIXME
         send_data("HTTP/1.1 200 Connection Established\r\n\r\n")
       else
         # TODO 重组headers???

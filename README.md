@@ -16,10 +16,11 @@ rake install_ca
 cp config.example.json config.json
 
 cd examples
-ruby proxy.rb # only http/https socks proxy
+ruby proxy.rb # only http/https and socks 5 proxy
 ruby mitm.rb # mitm server for https packet capture
 ruby ss.rb # shadowsocks server
 ```
+
 ## Settings
 
 #### Terminal setting in .zshrc or .bashrc ...
@@ -64,7 +65,7 @@ rake
 * There are 4 adapters, `direct`, `mitm`, `http(https)` and `shadowsocks`.
 * There are 6 actions, `http(https):http_adapter`, `shadowsocks:shadowsocks_adapter`, `direct:direct_adapter`, `speed:select fastest adapters`, `mitm:mitm_adapter`, and `reject:just close this socket`.
 * There are 6 rule types, `geoip`, `domain`, `domain_keyword`, `domain_suffix`, `ip_cidr` and `other`, note: rules are in order.
-* Filters is for packet capture, just work for http, if it is https, please use `mitm` action
+* Filters is for packet capture, just work for http. if it is https, please use `mitm` action
 
 ## Todo
 
@@ -111,7 +112,7 @@ rake
 * [x] safari not working
 * [x] ip support: 123.56.230.53:29231
 * [ ] 网易云音乐 search not work, download file with http?
-* [ ] mitm can not handle http, https only
+* [x] mitm can not handle http, https only
 * [x] DNS ResolvError may break proxy
 * [x] ip cidr cal a long time
 * [x] use proxy when <Resolv::ResolvError> no address for api.smoot.apple.com.cn

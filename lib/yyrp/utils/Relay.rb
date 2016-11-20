@@ -95,14 +95,23 @@ module Relay
             return false
           end
         elsif adapter == MitmAdapter
-          mitm_config = Yyrp.config.servers['mitm']
-          mitm_host = mitm_config['host']
-          mitm_port = mitm_config['port']
-          begin
-            @relay = EventMachine::connect mitm_host, mitm_port, MitmAdapter, self
-          rescue => e
-            Yyrp.logger.error "#{__FILE__} #{__LINE__} #{e}"
-            return false
+          if @https
+            mitm_config = Yyrp.config.servers['mitm']
+            mitm_host = mitm_config['host']
+            mitm_port = mitm_config['port']
+            begin
+              @relay = EventMachine::connect mitm_host, mitm_port, adapter, self
+            rescue => e
+              Yyrp.logger.error "#{__FILE__} #{__LINE__} #{e}"
+              return false
+            end
+          else # 非https使用直连
+            begin
+              @relay = EventMachine::connect @domain, @port, adapter, self
+            rescue => e
+              Yyrp.logger.error "#{__FILE__} #{__LINE__} #{e}"
+              return false
+            end
           end
         else
           begin
