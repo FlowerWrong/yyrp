@@ -25,6 +25,10 @@ class Socks5ProxyServer < BaseProxyServer
 
   def receive_data data
     add_con
+
+    @client_port, @client_ip = Socket.unpack_sockaddr_in(get_peername)
+    Yyrp.logger.info "Received data from #{@client_ip}:#{@client_port}"
+
     # https://zh.wikipedia.org/wiki/SOCKS#SOCKS5
     # http://apidock.com/ruby/String/unpack
     if @stage == 1
@@ -113,8 +117,11 @@ class Socks5ProxyServer < BaseProxyServer
   end
 
   def on_headers_complete(headers)
-    # headers.delete('Proxy-Connection')
     @headers = headers
+
+    # handle headers
+    @headers = rewrite_headers(@headers, @client_ip)
+
     if to_relay
       @relay.send_data(@buff)
       @buff = ''

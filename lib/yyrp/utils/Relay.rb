@@ -17,6 +17,16 @@ module Relay
     end
   end
 
+  def rewrite_headers(headers, client_ip)
+    headers['x-real-ip'] = client_ip unless headers['x-real-ip']
+    if headers['x-forwarded-for']
+      headers['x-forwarded-for'] += ", #{client_ip}"
+    else
+      headers['x-forwarded-for'] = client_ip
+    end
+    headers
+  end
+
   def del_con
     @server.connections.delete(self)
     Yyrp.logger.info "@server.connections -1 count is #{@server.connections.size}"

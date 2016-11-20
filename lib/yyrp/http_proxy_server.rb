@@ -26,6 +26,10 @@ class HttpProxyServer < BaseProxyServer
 
   def receive_data data
     add_con
+
+    @client_port, @client_ip = Socket.unpack_sockaddr_in(get_peername)
+    Yyrp.logger.info "Received data from #{@client_ip}:#{@client_port}"
+
     @buff += data
     @relay.send_data(data) if @https || @relay
     unless @https
@@ -50,10 +54,7 @@ class HttpProxyServer < BaseProxyServer
 
   def on_headers_complete(headers)
     # @see https://imququ.com/post/the-proxy-connection-header-in-http-request.html
-    # headers.delete('Proxy-Connection')
-    # headers['Connection'] = 'keep-alive'
     @headers = headers
-    # TODO rewrite http headers
     Yyrp.logger.error('headers is empty') if @headers.nil? || @headers.empty?
 
     # get remote domain and port
@@ -76,6 +77,9 @@ class HttpProxyServer < BaseProxyServer
       boundary = $1
       Yyrp.logger.info "It is fileupload, boundary is #{boundary}"
     end
+
+    # handle headers
+    @headers = rewrite_headers(@headers, @client_ip)
 
     @atype, @domain_len = 3, @domain.size
 

@@ -42,7 +42,7 @@ function unsetp(){
 
 ```bash
 # ignore proxy
-127.0.0.1、192.168.0.0/16、10.0.0.0/8、172.16.0.0/12、100.64.0.0/10、localhost、*.local
+127.0.0.1, 192.168.0.0/16, 10.0.0.0/8, 172.16.0.0/12, 100.64.0.0/10, localhost, *.local, 0.0.0.0
 ```
 
 ## Idea form
@@ -88,6 +88,7 @@ rake
 * [ ] http/https adapter
 * [ ] command line tools
 * [ ] websocket for view
+* [ ] websocket proxy support
 * [ ] tun2socks support with iptables
 * [ ] kcp support
 * [ ] v2ray support
@@ -95,7 +96,7 @@ rake
 * [ ] socks5 proxy server with auth support
 * [ ] more shadowsocks method support
 * [x] http multipart/form-data support
-* [ ] `x-forwarded-host`
+* [x] `x-forwarded-for` and `x-real-ip`
 
 ## Shadowsocks server TODO
 
