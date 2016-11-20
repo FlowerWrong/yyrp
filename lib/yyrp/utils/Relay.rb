@@ -17,12 +17,17 @@ module Relay
     end
   end
 
-  def rewrite_headers(headers, client_ip)
+  def rewrite_headers(headers, client_ip, protocol = 'http')
     headers['x-real-ip'] = client_ip unless headers['x-real-ip']
     if headers['x-forwarded-for']
       headers['x-forwarded-for'] += ", #{client_ip}"
     else
       headers['x-forwarded-for'] = client_ip
+    end
+    if headers['x-forwarded-proto']
+      headers['x-forwarded-proto'] += ", #{protocol}"
+    else
+      headers['x-forwarded-proto'] = protocol
     end
     headers
   end
@@ -54,7 +59,7 @@ module Relay
         @request.http_version = @parser.http_version
         @request.request_url = @parser.request_url
         @request.headers = @parser.headers
-        @request.protocol = @https ? 'https' : 'http'
+        @request.protocol = @protocol
       end
 
       # DNS query
@@ -95,7 +100,7 @@ module Relay
             return false
           end
         elsif adapter == MitmAdapter
-          if @https
+          if @connect_method
             mitm_config = Yyrp.config.servers['mitm']
             mitm_host = mitm_config['host']
             mitm_port = mitm_config['port']

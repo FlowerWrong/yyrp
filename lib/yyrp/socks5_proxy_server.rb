@@ -119,8 +119,14 @@ class Socks5ProxyServer < BaseProxyServer
   def on_headers_complete(headers)
     @headers = headers
 
+    @protocol = if headers['Sec-WebSocket-Version'] && headers['Sec-WebSocket-Key'] && (headers['Connection'] == 'keep-alive, Upgrade' || headers['Connection'] == 'Upgrade' || headers['Sec-WebSocket-Extension']) && headers['Upgrade'] == 'websocket'
+      'ws_or_wss'
+    else
+      'http_or_https'
+    end
+
     # handle headers
-    @headers = rewrite_headers(@headers, @client_ip)
+    @headers = rewrite_headers(@headers, @client_ip, @protocol)
 
     if to_relay
       @relay.send_data(@buff)

@@ -19,7 +19,7 @@ class HttpProxyServer < BaseProxyServer
 
   def post_init
     @buff = ''
-    @https = false
+    @connect_method = false
     @relay = nil
     @parser = Http::Parser.new(self)
   end
@@ -31,8 +31,8 @@ class HttpProxyServer < BaseProxyServer
     # Yyrp.logger.info "Received data #{data.size} from #{@client_ip}:#{@client_port}"
 
     @buff += data
-    @relay.send_data(data) if @https || @relay
-    unless @https
+    @relay.send_data(data) if @connect_method || @relay
+    unless @connect_method
       begin
         @parser << data
       rescue => e # HTTP::Parser::Error
@@ -43,7 +43,7 @@ class HttpProxyServer < BaseProxyServer
 
   def unbind
     del_con
-    @https = nil
+    @connect_method = nil
   end
 
   # 开始接收客户端数据
@@ -78,8 +78,14 @@ class HttpProxyServer < BaseProxyServer
       Yyrp.logger.info "It is fileupload, boundary is #{boundary}"
     end
 
+    @protocol = if @parser.http_method != 'CONNECT'
+      'https_or_ws_or_wss'
+    else
+      'http'
+    end
+
     # handle headers
-    @headers = rewrite_headers(@headers, @client_ip)
+    @headers = rewrite_headers(@headers, @client_ip, @protocol)
 
     @atype, @domain_len = 3, @domain.size
 
@@ -87,7 +93,7 @@ class HttpProxyServer < BaseProxyServer
 
     if to_relay
       if @parser.http_method == 'CONNECT'
-        @https = true # FIXME
+        @connect_method = true # https or ws
         send_data("HTTP/1.1 200 Connection Established\r\n\r\n")
       else
         # TODO 重组headers???
