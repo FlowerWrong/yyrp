@@ -82,11 +82,8 @@ module Relay
       else
         if adapter == ShadowsocksAdapter
           @addr_to_send = [@atype, @domain_len].pack('CC') + @domain + [@port].pack('s>')
-          ss_index = if adapter_name.nil?
-                       0
-                     else
-                       shadowsocks_index_by_adapter_name(adapter_name)
-                     end
+          ss_index = index_by_adapter_name(adapter_name, 'shadowsocks')
+
           ss_config = Yyrp.config.adapters['shadowsocks'][ss_index]
           ss_host = ss_config['host']
           ss_port = ss_config['port']
@@ -94,7 +91,7 @@ module Relay
           ss_passwd = ss_config['password']
           crypto = Shadowsocks::Crypto.new(method: ss_method, password: ss_passwd)
           begin
-            @relay = EventMachine::connect ss_host, ss_port, ShadowsocksAdapter, self, crypto, @addr_to_send
+            @relay = EventMachine::connect ss_host, ss_port, adapter, self, crypto, @addr_to_send
           rescue => e
             Yyrp.logger.error "#{__FILE__} #{__LINE__} #{e}"
             return false
@@ -118,6 +115,17 @@ module Relay
               return false
             end
           end
+        elsif adapter == HttpAdapter
+          index = index_by_adapter_name(adapter_name, 'http')
+          http_config = Yyrp.config.adapters['http'][index]
+          host = http_config['host']
+          port = http_config['port']
+          begin
+            @relay = EventMachine::connect host, port, adapter, self, http_config
+          rescue => e
+            Yyrp.logger.error "#{__FILE__} #{__LINE__} #{e}"
+            return false
+          end
         else
           begin
             @relay = EventMachine::connect @domain, @port, adapter, self
@@ -131,9 +139,15 @@ module Relay
     true
   end
 
-  def shadowsocks_index_by_adapter_name(adapter_name)
-    Yyrp.config.adapters['shadowsocks'].each_with_index do |ss, i|
-      return i if ss['name'] == adapter_name
+  def index_by_adapter_name(adapter_name, adapter_type)
+    return 0 if adapter_name.nil?
+    index = 0
+    Yyrp.config.adapters[adapter_type].each_with_index do |ad, i|
+      if ad['name'] == adapter_name
+        index = i
+        break
+      end
     end
+    index
   end
 end
