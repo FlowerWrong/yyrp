@@ -88,7 +88,8 @@ rake
 * [ ] http/https adapter
 * [ ] command line tools
 * [ ] websocket for view
-* [ ] websocket proxy support
+* [x] websocket proxy support
+* [ ] websocket-extensions support
 * [ ] tun2socks support with iptables
 * [ ] kcp support
 * [ ] v2ray support

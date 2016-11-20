@@ -29,6 +29,10 @@ Gem::Specification.new do |spec|
 
   spec.add_dependency 'eventmachine'
   spec.add_dependency 'http_parser.rb'
+
+  spec.add_dependency 'websocket-driver'
+  spec.add_dependency 'websocket-extensions'
+
   spec.add_dependency 'uuid'
   spec.add_dependency 'ipaddress'
   spec.add_dependency 'ruby-progressbar'
