@@ -41,10 +41,14 @@ Gem::Specification.new do |spec|
   spec.add_dependency 'activerecord'
   spec.add_dependency 'maxmind_geoip2'
   spec.add_dependency 'os'
-  # spec.add_dependency 'packetfu'
-  spec.add_dependency 'net-ping'
+
   spec.add_dependency 'logging'
   spec.add_dependency 'public_suffix'
+
+  # network packet
+  spec.add_dependency 'packetfu'
+  spec.add_dependency 'bettercap'
+  spec.add_dependency 'net-ping'
 
   # colorful terminal spinner
   spec.add_dependency 'paint'
