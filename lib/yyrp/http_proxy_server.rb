@@ -31,7 +31,7 @@ class HttpProxyServer < BaseProxyServer
     # Yyrp.logger.info "Received data #{data.size} from #{@client_ip}:#{@client_port}"
 
     @buff += data
-    @relay.send_data(data) if @connect_method && @relay # https only
+    @relay.send_data(data) if @connect_method && !@relay.nil? # https only
     unless @connect_method
       begin
         @parser << data
@@ -61,6 +61,7 @@ class HttpProxyServer < BaseProxyServer
     if @parser.http_method == 'CONNECT'
       @domain, @port = @parser.request_url.split(':')
       @port = @port.nil? ? 443 : @port.to_i
+      @connect_method = true # https ws or wss
     else
       @domain, @port = (headers['Host'] || headers['host']).split(':')
       @port = @port.nil? ? 80 : @port.to_i
@@ -92,23 +93,20 @@ class HttpProxyServer < BaseProxyServer
     Yyrp.logger.debug [:on_headers_complete, :http_proxy_server, @domain, @port, @atype, @domain_len]
 
     if to_relay
-      request_line = @buff.split("\r\n")[0]
-      # @parser.methods # :<<, :headers, :http_method, :request_url, :on_message_begin=, :on_headers_complete=, :on_body=, :on_message_complete=, :keep_alive?, :upgrade?, :http_version, :http_major, :http_minor, :status_code, :upgrade_data, :header_value_type, :header_value_type=, :reset!
-      if @relay.upstream_config && @relay.upstream_config['auth']
-        @headers['Proxy-Authorization'] = "Basic #{Base64.encode64("#{@relay.upstream_config['username']}:#{@relay.upstream_config['password']}")}"
-      end
-
-      payload = request_line + "\r\n" + @headers.keys.map {|key| "#{key}: #{@headers[key]}"}.join("\r\n") + "\r\n\r\n"
       if @parser.http_method == 'CONNECT'
-        @connect_method = true # https ws or wss
         send_data("HTTP/1.1 200 Connection Established\r\n\r\n")
       else
+        request_line = @buff.split("\r\n")[0]
+        if @relay.upstream_config && @relay.upstream_config['auth']
+          @headers['Proxy-Authorization'] = "Basic #{Base64.encode64("#{@relay.upstream_config['username']}:#{@relay.upstream_config['password']}")}"
+        end
+        payload = request_line + "\r\n" + @headers.keys.map {|key| "#{key}: #{@headers[key]}"}.join("\r\n") + "\r\n\r\n"
+
         @relay.send_data(payload) if payload
         @buff = ''
       end
     else
       reject_reply
-      return
     end
   end
 

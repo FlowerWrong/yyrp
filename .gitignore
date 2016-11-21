@@ -20,3 +20,4 @@
 *.key
 
 /examples/httpasswd
+/examples/node_modules/

@@ -1,6 +1,7 @@
 require 'eventmachine'
 require 'active_support/core_ext/hash/keys'
 require 'yyrp/http_proxy_server'
+require 'yyrp/https_proxy_server'
 require 'yyrp/socks5_proxy_server'
 
 require 'awesome_print'
@@ -23,10 +24,13 @@ module Yyrp
       @signature_http = EventMachine.start_server(http_host, http_port, HttpProxyServer) do |con|
         con.server = self
       end
+      @signature_http = EventMachine.start_server(http_host, (http_port + 10), HttpsProxyServer) do |con|
+        con.server = self
+      end
       @signature_socks5 = EventMachine.start_server(socks_host, socks_port, Socks5ProxyServer) do |con|
         con.server = self
       end
-      Yyrp.logger.info "http and socks5 proxy server started on #{http_port} #{socks_port}"
+      Yyrp.logger.info "http, https and socks5 proxy server started on #{http_port} #{http_port + 10} #{socks_port}"
       add_config_file_listener
     end
 

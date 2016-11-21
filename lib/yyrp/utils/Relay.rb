@@ -5,6 +5,7 @@ require_relative '../msgs/request'
 require_relative '../rules/rule_manager'
 require_relative '../adapters/shadowsocks_adapter'
 require_relative '../adapters/direct_adapter'
+require_relative '../adapters/http_adapter'
 require_relative '../adapters/mitm_adapter'
 
 require_relative '../config'
@@ -108,6 +109,7 @@ module Relay
               return false
             end
           else # 非https使用直连
+            Yyrp.logger.error "It is mitm, but not https"
             begin
               @relay = EventMachine::connect @domain, @port, adapter, self
             rescue => e

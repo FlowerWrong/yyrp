@@ -86,7 +86,7 @@ rake
 * [ ] DNS server
 * [x] DNS cache
 * [ ] speed adapter: simple implement with ping, only for proxy, not direct
-* [ ] http/https adapter
+* [x] http/https adapter
 * [ ] command line tools
 * [ ] websocket for view
 * [x] websocket proxy support
@@ -99,6 +99,7 @@ rake
 * [ ] more shadowsocks method support
 * [x] http multipart/form-data support
 * [x] `x-forwarded-for` and `x-real-ip`
+* [ ] local https proxy support(so hard)
 
 ## Shadowsocks server TODO
 
@@ -124,6 +125,7 @@ rake
 
 * squid + [stunnel](https://www.stunnel.org)
 * [tinyproxy](https://github.com/tinyproxy/tinyproxy) + [stunnel](https://www.stunnel.org)
+* [Squid SSL 相关特性总结](https://www.zybuluo.com/delight/note/2649)
 
 #### Shadowsocks
 
