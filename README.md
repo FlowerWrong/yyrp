@@ -134,3 +134,8 @@ rake
 #### Shadowsocks
 
 * [My shadowsocks server](https://github.com/FlowerWrong/yyrp/blob/master/lib/yyrp/shadowsocks/server.rb)
+
+## Reference
+
+* [ettercap](https://github.com/Ettercap/ettercap)
+* [libpcap](http://www.tcpdump.org/pcap.html)

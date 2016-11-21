@@ -40,7 +40,7 @@
     "shadowsocks": [{
       "name": "HK",
       "host": "domain",
-      "port": 50006,
+      "port": 50000,
       "method": "aes-256-cfb",
       "password": "pass"
     }, {
@@ -51,12 +51,12 @@
       "password": "0000000"
     }],
     "http": [{
-      "name": "HK-HTTP",
-      "host": "http_proxy.com",
-      "port": 0,
+      "name": "LOCAL_HTTP",
+      "host": "127.0.0.1",
+      "port": 10001,
       "auth": true,
-      "username": "proxy_username",
-      "password": "proxy_password"
+      "username": "yang",
+      "password": "pass"
     }]
   },
   "filters": [{
@@ -71,12 +71,15 @@
   }],
   "rules": [{
     "type": "domain_suffix",
-    "list": [
-      "mitm.com"
-    ],
+    "list": [],
     "action": "mitm"
   }, {
-    "type": "domain",
+    "type": "domain_suffix",
+    "list": [],
+    "action": "http",
+    "adapter_name": "SS_LOCALHOST"
+  }, {
+    "type": "domain_suffix",
     "list": [],
     "action": "shadowsocks",
     "adapter_name": "SS_LOCALHOST"
@@ -96,7 +99,8 @@
       "mmstat.com",
       "monitor.uu.qq.com",
       "beacon.qq.com",
-      "mob.com"
+      "mob.com",
+      "adobesc.com"
     ],
     "action": "reject"
   }, {
@@ -215,6 +219,7 @@
       "linode.com",
       "amazonaws.com",
       "cloudinary.com",
+      "rubydoc.info",
       "sketchapp.com",
       "libsdl.org",
       "homebrew.bintray.com",
