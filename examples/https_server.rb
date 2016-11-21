@@ -1,3 +1,7 @@
+$LOAD_PATH.unshift File.expand_path('../../lib', __FILE__)
+require 'yyrp'
+require 'yyrp/mitm/lib/ritm'
+
 require 'webrick'
 require 'webrick/https'
 
@@ -8,16 +12,50 @@ require 'webrick/https'
 # server = WEBrick::HTTPServer.new(:Port => 10001,
 #                                  :SSLEnable => true,
 #                                  :SSLCertName => cert_name)
+Yyrp.set_config
+cert = OpenSSL::X509::Certificate.new File.read Yyrp.config.servers['mitm']['ca_crt']
+pkey = OpenSSL::PKey::RSA.new File.read Yyrp.config.servers['mitm']['ca_key']
 
 
-cert = OpenSSL::X509::Certificate.new File.read "/Users/kingyang/dev/ruby/gems/yyrp/certs/insecure_ca.crt"
-pkey = OpenSSL::PKey::RSA.new File.read '/Users/kingyang/dev/ruby/gems/yyrp/certs/insecure_ca.key'
+default_vhost = 'localhost'
 
-server = WEBrick::HTTPServer.new(:Port => 10001,
-                                 :SSLEnable => true,
-                                 :SSLCertificate => cert,
-                                 :SSLPrivateKey => pkey)
+def gen_signed_cert(ca, common_name)
+  cert = Ritm::Certificate.create(common_name)
+  ca.sign(cert)
+  cert
+end
 
-trap 'INT' do server.shutdown end
+def vhost_settings(ca, hostname)
+  cert = gen_signed_cert(ca, hostname)
+  {
+    ServerName: hostname,
+    SSLEnable: true,
+    SSLVerifyClient: OpenSSL::SSL::VERIFY_NONE,
+    SSLPrivateKey: OpenSSL::PKey::RSA.new(cert.private_key),
+    SSLCertificate: OpenSSL::X509::Certificate.new(cert.pem),
+    SSLCertName: [['CN', hostname]]
+  }
+end
+
+def ca_certificate(pem, key)
+  if pem.nil? || key.nil?
+    Ritm::CA.create
+  else
+    Ritm::CA.load(File.read(pem), File.read(key))
+  end
+end
+ca = ca_certificate(Yyrp.config.servers['mitm']['ca_crt'], Yyrp.config.servers['mitm']['ca_key'])
+server = Ritm::Proxy::CertSigningHTTPSServer.new(Port: 10001,
+                                                 AccessLog: [],
+                                                 Logger: WEBrick::Log.new(File.open(File::NULL, 'w')),
+                                                 ca: ca,
+                                                 **vhost_settings(ca, default_vhost))
+
+
+server.mount '/', Ritm::RequestInterceptorServlet, DEFAULT_REQUEST_HANDLER, DEFAULT_RESPONSE_HANDLER
+
+trap 'INT' do
+  server.shutdown
+end
 
 server.start

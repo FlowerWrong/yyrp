@@ -67,6 +67,10 @@ rake
 * There are 6 rule types, `geoip`, `domain`, `domain_keyword`, `domain_suffix`, `ip_cidr` and `other`, note: rules are in order.
 * Filters is for packet capture, just work for http. if it is https, please use `mitm` action
 
+## Note
+
+* If you are using `https adapter`, the auth will be ignore
+
 ## Todo
 
 * [x] http/https proxy server
@@ -99,7 +103,7 @@ rake
 * [ ] more shadowsocks method support
 * [x] http multipart/form-data support
 * [x] `x-forwarded-for` and `x-real-ip`
-* [ ] local https proxy support(so hard)
+* [x] local https proxy support(so hard)
 
 ## Shadowsocks server TODO
 
