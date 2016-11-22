@@ -227,7 +227,8 @@
       "equinox.io",
       "lookae.com",
       "files.pythonhosted.org",
-      "cloudfront.net"
+      "cloudfront.net",
+      "goo.gl"
     ],
     "action": "shadowsocks",
     "adapter_name": "HK"
