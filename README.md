@@ -3,7 +3,6 @@
 ## Get start
 
 ```bash
-brew install libmaxminddb
 bundle install
 
 rake down_mmdb

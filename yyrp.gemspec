@@ -39,7 +39,9 @@ Gem::Specification.new do |spec|
   spec.add_dependency 'activesupport'
   spec.add_dependency 'activerecord'
 
-  spec.add_dependency 'maxmind_geoip2'
+  # spec.add_dependency 'maxmind_geoip2' # libmaxminddb dependency
+  spec.add_dependency 'maxminddb'
+
   spec.add_dependency 'os'
 
   spec.add_dependency 'ruby-progressbar'

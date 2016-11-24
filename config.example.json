@@ -184,6 +184,7 @@
       "github.com",
       "github.io",
       "gitbooks.io",
+      "gitbook.com",
       "githubapp.com",
       "githubusercontent.com",
       "wikipedia.org",
@@ -228,7 +229,10 @@
       "lookae.com",
       "files.pythonhosted.org",
       "cloudfront.net",
-      "goo.gl"
+      "goo.gl",
+      "smartdnsproxy.com",
+      "nssurge.com",
+      "hashicorp.com"
     ],
     "action": "shadowsocks",
     "adapter_name": "HK"

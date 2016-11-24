@@ -19,5 +19,7 @@
 *.crt
 *.key
 
+/.vagrant/
+
 /examples/httpasswd
 /examples/node_modules/

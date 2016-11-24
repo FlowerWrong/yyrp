@@ -1,6 +1,6 @@
 require 'ipaddress'
 require 'resolv'
-require 'maxmind_geoip2'
+require 'maxminddb'
 
 require_relative '../config'
 
@@ -40,10 +40,11 @@ class Request
     return @country_code if @country_code
     time_start = Time.now
     return nil if ip_address.nil?
-    MaxmindGeoIP2.file(Yyrp.config.servers['mmdb']['path'])
+
+    db = MaxMindDB.new(Yyrp.config.servers['mmdb']['path'])
     begin
-      res = MaxmindGeoIP2.locate(ip_address) if ip_address
-      @country_code = (res.nil? || ip_address.nil?) ? nil : res['country_code']
+      res = db.lookup(ip_address) if ip_address
+      @country_code = (res.nil? || ip_address.nil? || !res.found?) ? nil : res.country.iso_code
       time_end = Time.now
       time = time_end - time_start
       if time > 1
