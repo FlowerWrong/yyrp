@@ -147,7 +147,11 @@
       "qiniu",
       "jianguoyun",
       "trello",
-      "youdao"
+      "youdao",
+      "aliyun",
+      "alibaba",
+      "alicdn",
+      "aliapp"
     ],
     "action": "direct"
   }, {
@@ -173,7 +177,8 @@
       "linkedin",
       "cocos",
       "placehold",
-      "spreecommerce"
+      "spreecommerce",
+      "basecamp"
     ],
     "action": "shadowsocks",
     "adapter_name": "HK"
@@ -232,7 +237,10 @@
       "goo.gl",
       "smartdnsproxy.com",
       "nssurge.com",
-      "hashicorp.com"
+      "hashicorp.com",
+      "sourceforge.net",
+      "freebsd.org",
+      "nodejs.org"
     ],
     "action": "shadowsocks",
     "adapter_name": "HK"

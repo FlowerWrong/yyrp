@@ -1,5 +1,7 @@
 # README
 
+Tested on OSX and linux.
+
 ## Get start
 
 ```bash
@@ -139,3 +141,4 @@ rake
 * [ettercap](https://github.com/Ettercap/ettercap)
 * [libpcap](http://www.tcpdump.org/pcap.html)
 * [iperf3](https://iperf.fr/)
+* [Tun/Tap interface tutorial](http://backreference.org/2010/03/26/tuntap-interface-tutorial/)
