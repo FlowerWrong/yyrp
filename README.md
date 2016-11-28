@@ -86,6 +86,7 @@ rake
 * [x] reload config.json
 * [ ] yaml config support
 * [ ] surge config support
+* [x] cache rule match
 * [x] log
 * [ ] packet filter: header and body(http/https support)
 * [ ] DNS server

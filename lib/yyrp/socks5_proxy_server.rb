@@ -126,7 +126,7 @@ class Socks5ProxyServer < BaseProxyServer
     end
 
     # handle headers
-    @headers = rewrite_headers(@headers, @client_ip, @protocol)
+    # @headers = rewrite_headers(@headers, @client_ip, @protocol)
 
     if to_relay
       @relay.send_data(@buff)

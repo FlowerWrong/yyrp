@@ -86,7 +86,7 @@ class HttpProxyServer < BaseProxyServer
     end
 
     # handle headers
-    @headers = rewrite_headers(@headers, @client_ip, @protocol)
+    # @headers = rewrite_headers(@headers, @client_ip, @protocol)
 
     @atype, @domain_len = 3, @domain.size
 

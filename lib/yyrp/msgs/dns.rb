@@ -35,7 +35,7 @@ class DNS
       @querys << {domain: domain, ip: ip_address, count: 2}
       ip_address
     rescue => e
-      Yyrp.logger.error "#{__FILE__} #{__LINE__} #{e}"
+      Yyrp.logger.error "#{__FILE__} #{__LINE__} #{domain} #{e}"
       @exception_domains.push domain
       nil
     end

@@ -12,8 +12,11 @@ require_relative '../config'
 class RuleManager
   include Singleton
   attr_accessor :rules
+  attr_accessor :cached_matches
 
   def adapter(request)
+    cache = @cached_matches[request.host]
+    return [cache[:adapter], cache[:adapter_name]] if cache && cache.is_a?(Hash)
     @rules.each do |rule|
       time_start = Time.now
       if rule.match(request)
@@ -23,6 +26,21 @@ class RuleManager
         else
           Yyrp.logger.info "Rule match is #{rule.matched_rule}"
         end
+        h = {
+          domain: request.host,
+          adapter: rule.adapter,
+          adapter_name: rule.adapter_name,
+          rule: rule.type,
+          ip_address: request.ip_address,
+          country_code: request.country_code
+        }
+        @cached_matches[request.host] = h unless request.host.nil?
+
+        case rule.type
+        when 'geoip', 'other', 'ip_cidr'
+          @need_to_config_rules << h
+        end
+        ap @need_to_config_rules
         return [rule.adapter, rule.adapter_name]
       else
         time_end = Time.now
@@ -36,7 +54,13 @@ class RuleManager
     [nil, nil]
   end
 
+  def set_cached_matches
+    @cached_matches = {}
+    @need_to_config_rules = []
+  end
+
   def set_rules
+    set_cached_matches
     @rules = []
     Yyrp.logger.info 'Rule manager rules have beed seted'
     Yyrp.config.rules.each do |r_h|
