@@ -112,7 +112,8 @@
       "adobesc.com",
       "adobelogin.com",
       "adobe.io",
-      "adobe.com"
+      "adobe.com",
+      "sr.symcd.com"
     ],
     "action": "reject"
   }, {
@@ -276,7 +277,10 @@
       "bing.com",
       "heroku.com",
       "herokucdn.com",
-      "godaddy.com"
+      "godaddy.com",
+      "stackexchange.com",
+      "getbitbar.com",
+      "yahoo.com"
     ],
     "action": "shadowsocks",
     "adapter_name": "HK"
@@ -421,6 +425,13 @@
       "CN"
     ],
     "action": "direct"
+  }, {
+    "type": "geoip",
+    "list": [
+      "US"
+    ],
+    "action": "shadowsocks",
+    "adapter_name": "HK"
   }, {
     "type": "other",
     "action": "direct"

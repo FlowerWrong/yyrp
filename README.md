@@ -2,6 +2,8 @@
 
 Tested on OSX and linux.
 
+![osx_memory_info](https://raw.githubusercontent.com/FlowerWrong/yyrp/master/screenshots/osx_memory_info.png)
+
 ## Get start
 
 ```bash

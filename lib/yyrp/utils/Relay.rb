@@ -44,13 +44,10 @@ module Relay
 
   def reject_reply
     # FIXME it will retry
-    Yyrp.logger.debug [:on_headers_complete, "Maybe #{@domain} is reject, now close socket"]
-    # send_data("HTTP/1.1 200 OK\r\nContent-Length: 0\r\nConnection: close\r\n\r\n")
-    # timer = EventMachine.add_timer(3) do
-    #   close_connection_after_writing
-    # end
-    sleep 2
-    close_connection_after_writing
+    EventMachine.add_timer(2) do
+      Yyrp.logger.debug "Maybe #{@domain} is reject, now close socket".colorize(:red)
+      close_connection_after_writing
+    end
   end
 
   def to_relay
@@ -72,8 +69,7 @@ module Relay
         time_end = Time.now
         time = time_end - time_start
         if time > 1
-          Yyrp.logger.error '---------------------------------------------------'
-          Yyrp.logger.error "Parse rule spent #{time.to_s}s"
+          Yyrp.logger.error "#{__FILE__} #{__LINE__} Parse rule spent #{time.to_s}s".colorize(:red)
         end
       else
         adapter, adapter_name = ShadowsocksAdapter, Yyrp.config.adapters['shadowsocks'][0]['name']
@@ -95,7 +91,7 @@ module Relay
           begin
             @relay = EventMachine::connect ss_host, ss_port, adapter, self, crypto, @addr_to_send
           rescue => e
-            Yyrp.logger.error "#{__FILE__} #{__LINE__} #{e}"
+            Yyrp.logger.error "#{__FILE__} #{__LINE__} #{e}".colorize(:red)
             return false
           end
         elsif adapter == MitmAdapter
@@ -106,7 +102,7 @@ module Relay
             begin
               @relay = EventMachine::connect mitm_host, mitm_port, adapter, self
             rescue => e
-              Yyrp.logger.error "#{__FILE__} #{__LINE__} #{e}"
+              Yyrp.logger.error "#{__FILE__} #{__LINE__} #{e}".colorize(:red)
               return false
             end
           else # 非https使用直连
@@ -114,7 +110,7 @@ module Relay
             begin
               @relay = EventMachine::connect @domain, @port, adapter, self
             rescue => e
-              Yyrp.logger.error "#{__FILE__} #{__LINE__} #{e}"
+              Yyrp.logger.error "#{__FILE__} #{__LINE__} #{e}".colorize(:red)
               return false
             end
           end
@@ -126,14 +122,14 @@ module Relay
           begin
             @relay = EventMachine::connect host, port, adapter, self, http_config
           rescue => e
-            Yyrp.logger.error "#{__FILE__} #{__LINE__} #{e}"
+            Yyrp.logger.error "#{__FILE__} #{__LINE__} #{e}".colorize(:red)
             return false
           end
         else
           begin
             @relay = EventMachine::connect @domain, @port, adapter, self
           rescue => e
-            Yyrp.logger.error "#{__FILE__} #{__LINE__} #{@domain}:#{@port} #{e}"
+            Yyrp.logger.error "#{__FILE__} #{__LINE__} #{@domain}:#{@port} #{e}".colorize(:red)
             return false
           end
         end

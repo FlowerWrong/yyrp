@@ -44,7 +44,7 @@ class FilterManager
                 #  when 'other'
                 #    OtherFilter.new('other')
                  else
-                   Yyrp.logger.error 'not support filter type'
+                   Yyrp.logger.error "not support filter type: #{filter_h['type']}".colorize(:red)
                    nil
                end
       @filters << filter unless filter.nil?

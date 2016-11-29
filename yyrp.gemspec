@@ -60,6 +60,11 @@ Gem::Specification.new do |spec|
   spec.add_dependency 'whirly'
   spec.add_dependency 'colorize'
 
+  # system info
+  spec.add_dependency 'ohai'
+  spec.add_dependency 'vmstat'
+  spec.add_dependency 'get_process_mem'
+
   spec.add_runtime_dependency 'faraday'
   spec.add_runtime_dependency 'webrick'
   spec.add_runtime_dependency 'certificate_authority'

@@ -65,7 +65,7 @@ class BaseRule
         reqip = begin
           IPAddress(req.ip_address)
         rescue => e
-          Yyrp.logger.error "#{__FILE__} #{__LINE__} #{e}"
+          Yyrp.logger.error "#{__FILE__} #{__LINE__} #{e}".colorize(:red)
           nil
         end
         return false if reqip.nil?
@@ -87,7 +87,7 @@ class BaseRule
         @matched_rule = ['other', nil, req.description]
         return true
       else
-        Yyrp.logger.error "not support rule type: #{@type}"
+        Yyrp.logger.error "not support rule type: #{@type}".colorize(:red)
     end
     false
   end

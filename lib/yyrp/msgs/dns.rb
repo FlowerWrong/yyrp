@@ -17,7 +17,7 @@ class DNS
       ap @exception_domains
       @querys = []
       @exception_domains = []
-      Yyrp.logger.info 'querys and exception_domains cache have been cleanup'
+      Yyrp.logger.info 'querys and exception_domains cache have been cleanup'.colorize(:blue)
     end
 
     @dns_client = Resolv::DNS.new(nameserver: Yyrp.config.servers['dns']['nameservers'])
@@ -35,7 +35,7 @@ class DNS
       @querys << {domain: domain, ip: ip_address, count: 2}
       ip_address
     rescue => e
-      Yyrp.logger.error "#{__FILE__} #{__LINE__} #{domain} #{e}"
+      Yyrp.logger.error "#{__FILE__} #{__LINE__} #{domain} #{e}".colorize(:red)
       @exception_domains.push domain
       nil
     end

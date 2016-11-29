@@ -48,11 +48,10 @@ class Request
       time_end = Time.now
       time = time_end - time_start
       if time > 1
-        Yyrp.logger.error '----------------------------------------------------'
-        Yyrp.logger.error "Parse country_code #{ip_address} country_code is #{@country_code} spent #{time.to_s}s"
+        Yyrp.logger.error "Parse country_code #{ip_address} country_code is #{@country_code} spent #{time.to_s}s".colorize(:red)
       end
     rescue => e
-      Yyrp.logger.error "#{__FILE__} #{__LINE__} #{e}"
+      Yyrp.logger.error "#{__FILE__} #{__LINE__} #{e}".colorize(:red)
       return nil
     end
     @country_code

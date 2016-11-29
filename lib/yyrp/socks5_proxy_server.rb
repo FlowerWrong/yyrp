@@ -54,7 +54,7 @@ class Socks5ProxyServer < BaseProxyServer
           @domain = data[5..(@domain_len + 4)]
 
           unless PublicSuffix.valid?(@domain, ignore_private: true)
-            Yyrp.logger.error "Invide domain name #{@domain}"
+            Yyrp.logger.error "Invide domain name #{@domain}".colorize(:red)
             return
           end
 

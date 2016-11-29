@@ -46,8 +46,7 @@ class RuleManager
         time_end = Time.now
         time = time_end - time_start
         if time > 1
-          Yyrp.logger.error '----------------------------------------------------'
-          Yyrp.logger.error "Parse rule #{rule.description} : #{request.description} which not match spent #{time.to_s}s"
+          Yyrp.logger.error "Parse rule #{rule.description} : #{request.description} which not match spent #{time.to_s}s".colorize(:red)
         end
       end
     end
@@ -62,7 +61,7 @@ class RuleManager
   def set_rules
     set_cached_matches
     @rules = []
-    Yyrp.logger.info 'Rule manager rules have beed seted'
+    Yyrp.logger.info 'Rule manager rules and cached_matches have beed seted'
     Yyrp.config.rules.each do |r_h|
       rule = case r_h['type']
                when 'domain'

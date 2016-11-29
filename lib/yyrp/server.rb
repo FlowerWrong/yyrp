@@ -6,6 +6,7 @@ require 'yyrp/socks5_proxy_server'
 
 require 'awesome_print'
 require 'colorize'
+require 'get_process_mem'
 
 module Yyrp
   class Server
@@ -43,6 +44,11 @@ module Yyrp
       config_md5 = Yyrp.file_md5(Yyrp.config_file)
       Yyrp.logger.info "Origin config file md5 is #{config_md5}".colorize(:light_blue)
       EM.add_periodic_timer(3) {
+        # print memory info
+        mem = GetProcessMem.new
+        Yyrp.logger.info "Used memory #{mem.mb}MB".colorize(:red)
+        mem = nil
+
         # if file changed, reset config
         new_config_md5 = Yyrp.file_md5(Yyrp.config_file)
         if config_md5 != new_config_md5

@@ -36,7 +36,7 @@ class HttpProxyServer < BaseProxyServer
       begin
         @parser << data
       rescue => e # HTTP::Parser::Error
-        Yyrp.logger.error "#{__FILE__} #{__LINE__} #{e}"
+        Yyrp.logger.error "#{__FILE__} #{__LINE__} #{e}".colorize(:red)
       end
     end
   end
@@ -69,7 +69,7 @@ class HttpProxyServer < BaseProxyServer
 
     # 验证域名是否有效
     unless PublicSuffix.valid?(@domain, ignore_private: true)
-      Yyrp.logger.error "Invide domain name #{@domain}"
+      Yyrp.logger.error "Invide domain name #{@domain}".colorize(:red)
       return
     end
 

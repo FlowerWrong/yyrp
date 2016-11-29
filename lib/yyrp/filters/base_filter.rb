@@ -71,7 +71,7 @@ class BaseFilter
       #   @matched_filter = ['other', nil, req.description]
       #   return true
       else
-        Yyrp.logger.error "not support filter type: #{@type}"
+        Yyrp.logger.error "not support filter type: #{@type}".colorize(:red)
     end
     false
   end
