@@ -49,6 +49,7 @@ module Relay
     # timer = EventMachine.add_timer(3) do
     #   close_connection_after_writing
     # end
+    sleep 2
     close_connection_after_writing
   end
 
@@ -132,7 +133,7 @@ module Relay
           begin
             @relay = EventMachine::connect @domain, @port, adapter, self
           rescue => e
-            Yyrp.logger.error "#{__FILE__} #{__LINE__} #{e}"
+            Yyrp.logger.error "#{__FILE__} #{__LINE__} #{@domain}:#{@port} #{e}"
             return false
           end
         end

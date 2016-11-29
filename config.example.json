@@ -109,7 +109,10 @@
       "monitor.uu.qq.com",
       "beacon.qq.com",
       "mob.com",
-      "adobesc.com"
+      "adobesc.com",
+      "adobelogin.com",
+      "adobe.io",
+      "adobe.com"
     ],
     "action": "reject"
   }, {
@@ -136,7 +139,10 @@
       "doubleclick.net",
       "modao.cc",
       "mixpanel.com",
-      "qbox.me"
+      "qbox.me",
+      "oneapm.com",
+      "meiqia.com",
+      "csdn.net"
     ],
     "action": "direct"
   }, {
@@ -165,7 +171,8 @@
       "alibaba",
       "alicdn",
       "aliapp",
-      "tmall"
+      "tmall",
+      "zhirenhr"
     ],
     "action": "direct"
   }, {
@@ -257,7 +264,19 @@
       "freebsd.org",
       "nodejs.org",
       "rubyonrails.org",
-      "newrelic.com"
+      "newrelic.com",
+      "atom.io",
+      "icloud.com",
+      "live.com",
+      "skype.com",
+      "msedge.net",
+      "chrome.com",
+      "letsencrypt.org",
+      "disquscdn.com",
+      "bing.com",
+      "heroku.com",
+      "herokucdn.com",
+      "godaddy.com"
     ],
     "action": "shadowsocks",
     "adapter_name": "HK"
