@@ -33,7 +33,9 @@
         "114.114.114.114",
         "223.5.5.5",
         "223.6.6.6",
-        "8.8.8.8"
+        "119.29.29.29",
+        "8.8.8.8",
+        "8.8.4.4"
       ],
       "timeout": 1,
       "cache_timeout": 7200
@@ -143,7 +145,13 @@
       "qbox.me",
       "oneapm.com",
       "meiqia.com",
-      "csdn.net"
+      "csdn.net",
+      "weixinbridge.com",
+      "weiyun.com",
+      "oschina.net",
+      "weibo.com",
+      "jianshu.io",
+      "jianshu.com"
     ],
     "action": "direct"
   }, {
@@ -280,7 +288,14 @@
       "godaddy.com",
       "stackexchange.com",
       "getbitbar.com",
-      "yahoo.com"
+      "yahoo.com",
+      "bundler.io",
+      "infoq.com",
+      "infoqstatic.com",
+      "elixir-lang.org",
+      "wp.com",
+      "wordpress.com",
+      "wikimedia.org"
     ],
     "action": "shadowsocks",
     "adapter_name": "HK"

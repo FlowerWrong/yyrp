@@ -95,19 +95,19 @@ rake
 * [x] DNS cache
 * [ ] speed adapter: simple implement with ping, only for proxy, not direct
 * [x] http/https adapter
+* [ ] socks 5 proxy server adapter
+* [ ] v2ray adapter support
 * [ ] command line tools
 * [ ] websocket for view
 * [x] websocket proxy support
 * [ ] websocket-extensions support
 * [ ] tun2socks support with iptables
 * [ ] kcp support
-* [ ] v2ray support
-* [x] IPV6 support
-* [ ] socks5 proxy server with auth support
+* [ ] IPV6 support, need to test
 * [ ] more shadowsocks method support
 * [x] http multipart/form-data support
-* [x] `x-forwarded-for` and `x-real-ip`
-* [x] local https proxy support(so hard)
+* [x] `x-forwarded-for` and `x-real-ip` suport
+* [x] local https proxy support
 
 ## Shadowsocks server TODO
 
@@ -122,7 +122,7 @@ rake
 * [x] ip support: 123.56.230.53:29231
 * [ ] 网易云音乐 search not work, download file with http?
 * [x] mitm can not handle http, https only
-* [x] DNS ResolvError may break proxy
+* [ ] DNS ResolvError may break proxy
 * [x] ip cidr cal a long time
 * [x] use proxy when <Resolv::ResolvError> no address for api.smoot.apple.com.cn
 * [x] weixin upload image http proxy only
