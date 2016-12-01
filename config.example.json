@@ -37,7 +37,7 @@
         "8.8.8.8",
         "8.8.4.4"
       ],
-      "timeout": 1,
+      "timeout": 3,
       "cache_timeout": 7200
     }
   },
@@ -114,8 +114,7 @@
       "adobesc.com",
       "adobelogin.com",
       "adobe.io",
-      "adobe.com",
-      "sr.symcd.com"
+      "adobe.com"
     ],
     "action": "reject"
   }, {
@@ -151,7 +150,11 @@
       "oschina.net",
       "weibo.com",
       "jianshu.io",
-      "jianshu.com"
+      "jianshu.com",
+      "2cto.com",
+      "netease.com",
+      "autonavi.com",
+      "globalsign.com"
     ],
     "action": "direct"
   }, {
@@ -295,7 +298,15 @@
       "elixir-lang.org",
       "wp.com",
       "wordpress.com",
-      "wikimedia.org"
+      "wikimedia.org",
+      "zoom.us",
+      "zoomnow.net",
+      "bitbarapp.com",
+      "asciinema.org",
+      "tuzitio.com",
+      "adblockplus.org",
+      "symcb.com",
+      "symcd.com"
     ],
     "action": "shadowsocks",
     "adapter_name": "HK"

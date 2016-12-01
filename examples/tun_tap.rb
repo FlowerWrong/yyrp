@@ -1,3 +1,4 @@
+# NOTE only work for linux
 require 'rb_tuntap'
 require 'packetfu'
 

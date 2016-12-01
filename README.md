@@ -92,6 +92,7 @@ rake
 * [x] log
 * [ ] packet filter: header and body(http/https support)
 * [ ] DNS server
+* [ ] multi DNS query to different DNS server at the same time, just select the fastest
 * [x] DNS cache
 * [ ] speed adapter: simple implement with ping, only for proxy, not direct
 * [x] http/https adapter
