@@ -24,6 +24,13 @@ ruby mitm.rb # mitm server for https packet capture
 ruby ss.rb # shadowsocks server
 ```
 
+## Memory Info
+
+```
+# brew install glances
+glances
+```
+
 ## Settings
 
 #### Terminal setting in .zshrc or .bashrc ...
@@ -32,11 +39,13 @@ ruby ss.rb # shadowsocks server
 function setp(){
   export http_proxy='http://127.0.0.1:7777'
   export https_proxy='http://127.0.0.1:7777'
+  echo "HTTP Proxy on"
 }
 
 function unsetp(){
   unset http_proxy
   unset https_proxy
+  echo "HTTP Proxy off"
 }
 ```
 

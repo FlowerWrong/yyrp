@@ -154,7 +154,25 @@
       "2cto.com",
       "netease.com",
       "autonavi.com",
-      "globalsign.com"
+      "globalsign.com",
+      "sinaapp.com",
+      "mzstatic.com",
+      "itjuzi.com",
+      "gtimg.com",
+      "zhihu.com",
+      "lagou.com",
+      "chinaipo.com",
+      "thepaper.cn",
+      "xunlei.com",
+      "diyiapp.com",
+      "qihucdn.com",
+      "weui.io",
+      "duoshuo.com",
+      "worktile.com",
+      "36kr.com",
+      "tingyun.com",
+      "growingio.com",
+      "vuejs.org"
     ],
     "action": "direct"
   }, {
@@ -306,7 +324,15 @@
       "tuzitio.com",
       "adblockplus.org",
       "symcb.com",
-      "symcd.com"
+      "symcd.com",
+      "ruby-doc.org",
+      "jquery.com",
+      "discourse.org",
+      "youtube.com",
+      "stripe.com",
+      "datatables.net",
+      "qiita.com",
+      "yahoo.co"
     ],
     "action": "shadowsocks",
     "adapter_name": "HK"

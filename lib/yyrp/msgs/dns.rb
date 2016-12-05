@@ -4,7 +4,7 @@ require 'awesome_print'
 
 class DNS
   include Singleton
-  attr_accessor :querys, :exception_domains, :dns_client
+  attr_accessor :querys, :exception_domains
 
   def initialize
     @querys = []
@@ -19,9 +19,6 @@ class DNS
       @exception_domains = []
       Yyrp.logger.info 'querys and exception_domains cache have been cleanup'.colorize(:blue)
     end
-
-    @dns_client = Resolv::DNS.new(nameserver: Yyrp.config.servers['dns']['nameservers'])
-    @dns_client.timeouts = Yyrp.config.servers['dns']['timeout']
   end
 
   def resolv(domain)
@@ -30,7 +27,9 @@ class DNS
     flag, domain_h = cached?(domain)
     return domain_h[:ip] if flag
     begin
-      ip_address = @dns_client.getaddress(domain)
+      dns_client = Resolv::DNS.new(nameserver: Yyrp.config.servers['dns']['nameservers'])
+      dns_client.timeouts = Yyrp.config.servers['dns']['timeout']
+      ip_address = dns_client.getaddress(domain)
       ip_address = ip_address.to_s
       @querys << {domain: domain, ip: ip_address, count: 2}
       ip_address
