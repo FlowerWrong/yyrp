@@ -72,10 +72,12 @@ class Socks5ProxyServer < BaseProxyServer
 
       if @domain && @port
         case cmd
-          when 1 # CONNECT请求
+          when 1 # CONNECT
             send_data("\x05\x00\x00\x01\x00\x00\x00\x00" + [@port].pack('s>'))
-          when 2, 3 # bind: FTP, udp
+          when 2 # bind
             Yyrp.logger.debug [:receive_data, @stage, 'not support this cmd']
+            return
+          when 3 # UDP relay TODO
             return
           else
             Yyrp.logger.debug [:receive_data, @stage, 'not support this cmd']

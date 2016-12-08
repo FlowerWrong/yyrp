@@ -65,6 +65,7 @@ function unsetp(){
 * [charles](https://www.charlesproxy.com/)
 * [privoxy](https://www.privoxy.org/)
 * [ritm](https://github.com/argos83/ritm): Man-in-the-middle attack
+* [kone](https://github.com/xjdrew/kone): Beautiful than tun2socks
 
 ## Test
 
@@ -118,6 +119,7 @@ rake
 * [x] http multipart/form-data support
 * [x] `x-forwarded-for` and `x-real-ip` suport
 * [x] local https proxy support
+* [ ] socks 5 UDP relay
 
 ## Shadowsocks server TODO
 
