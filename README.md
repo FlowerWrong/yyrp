@@ -138,6 +138,7 @@ rake
 * [x] ip cidr cal a long time
 * [x] use proxy when <Resolv::ResolvError> no address for api.smoot.apple.com.cn
 * [x] weixin upload image http proxy only
+* [ ] Too many open files - ps (Errno::EMFILE)
 
 ## Proxy
 

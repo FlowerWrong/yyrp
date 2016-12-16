@@ -7,7 +7,7 @@ require 'json'
 Yyrp::ShadowsocksServer.new
 $last_stat = nil
 
-# ./ss-manager --manager-address 127.0.0.1:6001 -c ./multi.json -v
+# ./ss-manager --manager-address 127.0.0.1:6001 --executable ./ss-server -c ~/app/server-multi-passwd.json -v -u
 # for https://github.com/shadowsocks/shadowsocks-libev
 # ./configure --prefix=./ --with-openssl=/usr/local/opt/openssl --disable-documentation
 udp_manager_socket = UDPSocket.new

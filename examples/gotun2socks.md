@@ -17,7 +17,7 @@ sudo route add -net 128.0.0.0 10.0.0.1 -netmask 128.0.0.0
 
 my_ss_server=x.x.x.x
 orig_gw=$(netstat -nr | grep --color=never '^default' | grep -v 'utun' | sed 's/default *\([0-9\.]*\) .*/\1/' | head -1)
-sudo route add -net $my_ss_server $origin_gw -netmask 255.255.255.255
+sudo route add -host $my_ss_server $origin_gw
 ```
 
 ## BUG
