@@ -19,7 +19,7 @@ start_fwd() {
   ip link set "$TUN_NETWORK_DEV" up
   ip route del default via "$GATEWAY_IP"
   ip route add "$SOCKS_SERVER" via "$GATEWAY_IP"
-  # DNS
+  # DNS TODO
   # 特殊ip段走家用网关（路由器）的 IP 地址（如局域网联机）
   # ip route add "172.16.39.0/24" via "$GATEWAY_IP"
   # 国内网段走家用网关（路由器）的 IP 地址
@@ -30,7 +30,7 @@ start_fwd() {
   ip route add 0.0.0.0/1 via "$TUN_NETWORK_PREFIX.1"
   ip route add 128.0.0.0/1 via "$TUN_NETWORK_PREFIX.1"
   # 将socks5转为vpn
-  /home/yy/dev/c/badvpn/badvpn-build/tun2socks/badvpn-tun2socks --tundev "$TUN_NETWORK_DEV" --netif-ipaddr "$TUN_NETWORK_PREFIX.2" --netif-netmask 255.255.255.0 --socks-server-addr "127.0.0.1:$SOCKS_PORT"
+  /home/yy/dev/c/badvpn/badvpn-build/tun2socks/badvpn-tun2socks --loglevel debug --tundev "$TUN_NETWORK_DEV" --netif-ipaddr "$TUN_NETWORK_PREFIX.2" --netif-netmask 255.255.255.0 --socks-server-addr "127.0.0.1:$SOCKS_PORT"
   # TUN2SOCKS_PID="$!"
 }
 
