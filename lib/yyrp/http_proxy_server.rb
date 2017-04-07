@@ -25,13 +25,14 @@ class HttpProxyServer < BaseProxyServer
   end
 
   def receive_data data
+    p data
     add_con
 
     @client_port, @client_ip = Socket.unpack_sockaddr_in(get_peername)
     # Yyrp.logger.info "Received data #{data.size} from #{@client_ip}:#{@client_port}"
 
     @buff += data
-    @relay.send_data(data) if @connect_method && !@relay.nil? # https only
+    @relay.send_data(data) if @connect_method && !@relay.nil? # http/https connect only
     unless @connect_method
       begin
         @parser << data
@@ -56,11 +57,15 @@ class HttpProxyServer < BaseProxyServer
     # @see https://imququ.com/post/the-proxy-connection-header-in-http-request.html
     @headers = headers
     Yyrp.logger.error('headers is empty') if @headers.nil? || @headers.empty?
-
     # get remote domain and port
     if @parser.http_method == 'CONNECT'
       @domain, @port = @parser.request_url.split(':')
+      if @port.nil? && headers['Host'] && headers['host'].split(':')
+        # "CONNECT tower.im:80 HTTP/1.1\r\nHost: tower.im:80\r\nUser-Agent: Go-http-client/1.1\r\n\r\n"
+        @port = headers['host'].split(':')[1]
+      end
       @port = @port.nil? ? 443 : @port.to_i
+      # NOTE connect is also can be http
       @connect_method = true # https ws or wss
     else
       @domain, @port = (headers['Host'] || headers['host']).split(':')

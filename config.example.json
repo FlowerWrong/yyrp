@@ -245,6 +245,8 @@
       "gitbook.com",
       "githubapp.com",
       "githubusercontent.com",
+      "git.io",
+      "gitter.im",
       "wikipedia.org",
       "medium.com",
       "maven.apache.org",
@@ -334,7 +336,10 @@
       "stripe.com",
       "datatables.net",
       "qiita.com",
-      "yahoo.co"
+      "yahoo.co",
+      "telegram.org",
+      "telegram.me",
+      "godoc.org"
     ],
     "action": "shadowsocks",
     "adapter_name": "HK"
@@ -380,7 +385,8 @@
       "91.108.4.0/22",
       "91.108.56.0/22",
       "109.239.140.0/24",
-      "149.154.160.0/20"
+      "149.154.160.0/20",
+      "149.154.167.0/24"
     ],
     "action": "shadowsocks",
     "adapter_name": "HK"
