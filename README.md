@@ -139,6 +139,7 @@ rake
 * [x] use proxy when <Resolv::ResolvError> no address for api.smoot.apple.com.cn
 * [x] weixin upload image http proxy only
 * [ ] Too many open files - ps (Errno::EMFILE)
+* [ ] delete ipv6 utun [Tunnelblick](https://github.com/Tunnelblick/Tunnelblick/issues/340#issuecomment-258296677)
 
 ## Proxy
 

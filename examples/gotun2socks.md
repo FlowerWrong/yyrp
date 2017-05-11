@@ -23,3 +23,13 @@ sudo route add -host $my_ss_server $origin_gw
 ## BUG
 
 * ERROR: accept: Too many open files => `ulimit -a`
+
+## NOTE
+
+Please use the [pyhton version shadowsocks with udp relay](https://github.com/shadowsocks/shadowsocks/tree/master),
+shadowsocks-libev 2.6.3 with udp relay not work.
+
+## TODO
+
+* [ ] rule
+* [x] chnroutes route with [chnroutes_osx](https://github.com/FlowerWrong/ShadowVPN/blob/master/tools/chnroutes_osx.sh)
