@@ -1,0 +1,3 @@
+[submodule "examples/badvpn/china_ip_list"]
+	path = examples/badvpn/china_ip_list
+	url = git@github.com:17mon/china_ip_list.git

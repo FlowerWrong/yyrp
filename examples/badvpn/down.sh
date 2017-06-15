@@ -12,7 +12,7 @@ TUN_NETWORK_PREFIX=10.0.0 # 选一个不冲突的内网 IP 段的前缀
 stop_fwd() {
   ip route del 128.0.0.0/1 via "$TUN_NETWORK_PREFIX.1"
   ip route del 0.0.0.0/1 via "$TUN_NETWORK_PREFIX.1"
-  for i in $(cat /home/yy/dev/ruby/yyrp/examples/badvpn/cn_rules.conf); do
+  for i in $(cat /home/yy/dev/ruby/yyrp/examples/badvpn/china_ip_list/china_ip_list.txt); do
     ip route del "$i" via "$GATEWAY_IP"
   done
   # ip route del "172.16.39.0/24" via "$GATEWAY_IP"

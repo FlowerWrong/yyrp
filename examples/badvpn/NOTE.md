@@ -2,6 +2,8 @@
 
 ## Get start
 
+get [china_ip_list](https://github.com/17mon/china_ip_list)
+
 ```bash
 sudo systemctl start pdnsd
 sudo pdnsd-ctl status

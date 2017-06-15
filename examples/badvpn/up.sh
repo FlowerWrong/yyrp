@@ -23,7 +23,7 @@ start_fwd() {
   # 特殊ip段走家用网关（路由器）的 IP 地址（如局域网联机）
   # ip route add "172.16.39.0/24" via "$GATEWAY_IP"
   # 国内网段走家用网关（路由器）的 IP 地址
-  for i in $(cat /home/yy/dev/ruby/yyrp/examples/badvpn/cn_rules.conf); do
+  for i in $(cat /home/yy/dev/ruby/yyrp/examples/badvpn/china_ip_list/china_ip_list.txt); do
     ip route add "$i" via "$GATEWAY_IP"
   done
   # 将默认网关设为虚拟网卡的IP地址
