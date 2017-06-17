@@ -15,6 +15,9 @@ stop_fwd() {
   for i in $(cat /home/yy/dev/ruby/yyrp/examples/badvpn/china_ip_list/china_ip_list.txt); do
     ip route del "$i" via "$GATEWAY_IP"
   done
+
+  ipset destroy chnroute
+
   # ip route del "172.16.39.0/24" via "$GATEWAY_IP"
   ip route del "$SOCKS_SERVER" via "$GATEWAY_IP"
   ip route add default via "$GATEWAY_IP"
