@@ -21,7 +21,7 @@ cp config.example.json config.json
 cd examples
 ruby proxy.rb # only http/https and socks 5 proxy
 ruby mitm.rb # mitm server for https packet capture
-ruby ss.rb # shadowsocks server
+ruby ss.rb # ssocks server
 ```
 
 ## Memory Info
@@ -89,8 +89,8 @@ rake
 * [x] http/https proxy server
 * [x] socks5 proxy server
 * [x] direct adapter
-* [x] shadowsocks adapter
-* [x] shadowsocks server
+* [x] ssocks adapter
+* [x] ssocks server
 * [x] rule manager
 * [x] [geolite2](https://dev.maxmind.com/zh-hans/geoip/geoip2/geolite2-%E5%BC%80%E6%BA%90%E6%95%B0%E6%8D%AE%E5%BA%93/) support
 * [x] reject, but in browser has some bug???
@@ -115,13 +115,13 @@ rake
 * [ ] tun2socks support with iptables
 * [ ] kcp support
 * [ ] IPV6 support, need to test
-* [ ] more shadowsocks method support
+* [ ] more ssocks method support
 * [x] http multipart/form-data support
 * [x] `x-forwarded-for` and `x-real-ip` suport
 * [x] local https proxy support
 * [ ] socks 5 UDP relay
 
-## Shadowsocks server TODO
+## ssocks server TODO
 
 * [ ] onetime authentication
 * [ ] autoban
@@ -149,9 +149,9 @@ rake
 * [tinyproxy](https://github.com/tinyproxy/tinyproxy) + [stunnel](https://www.stunnel.org)
 * [Squid SSL 相关特性总结](https://www.zybuluo.com/delight/note/2649)
 
-#### Shadowsocks
+#### ssocks
 
-* [My shadowsocks server](https://github.com/FlowerWrong/yyrp/blob/master/lib/yyrp/shadowsocks/server.rb)
+* [My ssocks server](https://github.com/FlowerWrong/yyrp/blob/master/lib/yyrp/shadowsocks/server.rb)
 
 ## Reference
 
