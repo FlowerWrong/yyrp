@@ -7,17 +7,17 @@ Gem::Specification.new do |spec|
   spec.name          = 'yyrp'
   spec.version       = Yyrp::VERSION
   spec.authors       = ['yang']
-  spec.email         = ['yangkang@liveneeq.com']
+  spec.email         = ['blockchainyang@gmail.com']
 
   spec.summary       = %q{A http/https, socks proxy server, a mitm server and a shadowsocks server with rules}
   spec.description   = %q{A http/https, socks proxy server, a mitm server and a shadowsocks server with rules}
-  spec.homepage      = 'http://proxy.thecampus.cc'
+  spec.homepage      = ''
   spec.license       = 'MIT'
 
   # Prevent pushing this gem to RubyGems.org. To allow pushes either set the 'allowed_push_host'
   # to allow pushing to a single host or delete this section to allow pushing to any host.
   if spec.respond_to?(:metadata)
-    spec.metadata['allowed_push_host'] = "TODO: Set to 'http://proxy.thecampus.cc'"
+    spec.metadata['allowed_push_host'] = 'TODO'
   else
     raise 'RubyGems 2.0 or newer is required to protect against public gem pushes.'
   end
