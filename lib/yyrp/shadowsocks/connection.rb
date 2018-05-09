@@ -5,7 +5,6 @@ require 'yyrp/adapters/direct_adapter'
 require 'yyrp/utils/relay'
 
 require 'yyrp/shadowsocks/crypto'
-require 'yyrp/shadowsocks/models'
 require 'yyrp/shadowsocks/server_pool'
 require 'yyrp/config'
 require 'yyrp/base_proxy_server'
@@ -33,9 +32,7 @@ class ShadowsocksConnection < BaseProxyServer
 
   def receive_data data
     add_con
-    # 更新用户流量到数据库
-    user = get_user
-    user.update(flow_up: user.flow_up + data.size) unless user.nil?
+    # 流量 data.size
     data = decrypt(data)
     stage_handler(data)
   end
@@ -96,9 +93,7 @@ class ShadowsocksConnection < BaseProxyServer
   end
 
   def relay_from_backend(data)
-    # 更新用户流量到数据库
-    user = get_user
-    user.update(flow_down: user.flow_down + data.size) unless user.nil?
+    # 流量 data.size
 
     data = encrypt(data)
     send_data data unless data.nil?
@@ -108,10 +103,5 @@ class ShadowsocksConnection < BaseProxyServer
 
   def inet_ntoa(n)
     n.unpack("C*").join "."
-  end
-
-  def get_user
-    users = User.where(enable: true, port: @listen_port)
-    users != [] ? users.last : nil
   end
 end

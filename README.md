@@ -65,6 +65,7 @@ function unsetp(){
 * [charles](https://www.charlesproxy.com/)
 * [privoxy](https://www.privoxy.org/)
 * [ritm](https://github.com/argos83/ritm): Man-in-the-middle attack
+* [bbtfr/evil-proxy](https://github.com/bbtfr/evil-proxy): A ruby http/https proxy, with SSL MITM support to do 👿 things.
 * [kone](https://github.com/xjdrew/kone): Beautiful than tun2socks
 
 ## Test

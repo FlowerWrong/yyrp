@@ -38,7 +38,6 @@ Gem::Specification.new do |spec|
   spec.add_dependency 'ipaddress'
 
   spec.add_dependency 'activesupport'
-  spec.add_dependency 'activerecord'
 
   # spec.add_dependency 'maxmind_geoip2' # libmaxminddb dependency
   spec.add_dependency 'maxminddb'
@@ -69,7 +68,7 @@ Gem::Specification.new do |spec|
   spec.add_runtime_dependency 'faraday'
   spec.add_runtime_dependency 'webrick'
   spec.add_runtime_dependency 'certificate_authority'
-  spec.add_runtime_dependency 'dot_hash'
+  spec.add_runtime_dependency 'dot_hash', '~> 0.5'
 
   spec.add_development_dependency 'bundler'
   spec.add_development_dependency 'rake'

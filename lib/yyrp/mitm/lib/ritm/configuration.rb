@@ -48,7 +48,7 @@ module Ritm
 
     def reset(settings = {})
       settings = DEFAULT_SETTINGS.merge(settings)
-      @settings = settings.to_properties
+      @settings = DotHash.load(settings)
     end
 
     def method_missing(m, *args, &block)
