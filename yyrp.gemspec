@@ -68,7 +68,7 @@ Gem::Specification.new do |spec|
   spec.add_runtime_dependency 'faraday'
   spec.add_runtime_dependency 'webrick'
   spec.add_runtime_dependency 'certificate_authority'
-  spec.add_runtime_dependency 'dot_hash', '~> 0.5'
+  spec.add_runtime_dependency 'dot_hash'
 
   spec.add_development_dependency 'bundler'
   spec.add_development_dependency 'rake'

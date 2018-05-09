@@ -8,7 +8,7 @@ PATH
       celluloid-dns
       certificate_authority
       colorize
-      dot_hash (~> 0.5)
+      dot_hash
       eventmachine
       faraday
       get_process_mem
@@ -84,7 +84,7 @@ GEM
       tomlrb (~> 1.2)
     colorize (0.7.7)
     concurrent-ruby (1.0.5)
-    dot_hash (0.5.9)
+    dot_hash (1.1.8)
     eventmachine (1.2.6)
     faraday (0.15.0)
       multipart-post (>= 1.2, < 3)
